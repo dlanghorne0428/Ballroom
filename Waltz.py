@@ -47,4 +47,5 @@ class Waltz(Dance.Dance):
 
     def load_songs(self):
         #self.song_list.append(arcade.sound.load_sound("Music/Dark Waltz.mp3"))
-        self.song_list.append(Song.Song("Music/Waltz/Dark Waltz.mp3", 87))
+        self.song_list.append(Song.Song("Music/Waltz/Come Away With Me.mp3", 80, 17.25))
+        self.song_list.append(Song.Song("Music/Waltz/Dark Waltz.mp3", 87, 17))
