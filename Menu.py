@@ -79,6 +79,8 @@ class Menu():
 
     def process_key(self, key, key_modifiers):
 
+        state_transition = None
+
         if self.current_state == MenuState.SELECT_DANCE:
             if key == arcade.key.W:
                 print("You selected Waltz")
@@ -95,6 +97,7 @@ class Menu():
                 pass
             else:
                 self.current_state = MenuState.SELECT_FIGURE
+                state_transition = self.current_state
                 self.current_dance.load_figures()
                 self.current_dance.current_figure = None
                 self.current_dance.load_songs()
@@ -109,16 +112,18 @@ class Menu():
             elif key == arcade.key.KEY_0:
                 if len(self.current_routine) > 0:
                     self.current_state = MenuState.READY_TO_START
-                    # should dispatch an event here to load the routine
+                    state_transition = self.current_state
 
         # See if the user just hit space.
         elif self.current_state == MenuState.READY_TO_START:
             if key == arcade.key.SPACE:
                 print("You pressed the space bar - Dance is starting.")
                 self.current_state = MenuState.DANCING
+                state_transition = self.current_state
                 self.current_dance.play_song()
-                # should dispatch an event here to start the routine
 
         elif self.current_state == MenuState.DANCING:
             pass
             # what to do here?
+
+        return state_transition

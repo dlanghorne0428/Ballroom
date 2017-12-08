@@ -104,15 +104,15 @@ class MyApplication(arcade.Window):
             self.close()
 
 
-        self.menu.process_key(key, key_modifiers)
+        new_state = self.menu.process_key(key, key_modifiers)
 
         # see if user is done entering the routine, this should be a separate event
-        if key == arcade.key.KEY_0:
+        if new_state == Menu.MenuState.READY_TO_START:
             for fig in self.menu.current_routine:
                 self.load_figure(fig)
 
-        # see if user is ready to start, this should be a separate event
-        if key == arcade.key.SPACE:
+        # see if user is ready to dance, this should be a separate event
+        elif new_state == Menu.MenuState.DANCING:
             self.leader.start_next_step()
             self.follower.start_next_step()
 
@@ -120,8 +120,7 @@ class MyApplication(arcade.Window):
         """
         Called whenever the user lets off a previously pressed key.
         """
-        if key == arcade.key.SPACE:
-            print("You stopped pressing the space bar.")
+        pass
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
