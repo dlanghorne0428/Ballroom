@@ -21,8 +21,8 @@ class Waltz(Dance.Dance):
         f.add_follower_step(Step.Foot.RIGHT, 0, -self.pixels_per_front_step, 0, self.seconds_per_beat)
 
         # Slow Waltz - Step 2
-        f.add_leader_step(Step.Foot.RIGHT, self.pixels_per_side_step, self.pixels_per_front_step, 0, self.seconds_per_beat)
-        f.add_follower_step(Step.Foot.LEFT, -self.pixels_per_side_step, -self.pixels_per_front_step, 0, self.seconds_per_beat)
+        f.add_leader_step(Step.Foot.RIGHT, self.pixels_per_side_step, 0, 0, self.seconds_per_beat)
+        f.add_follower_step(Step.Foot.LEFT, -self.pixels_per_side_step, 0, 0, self.seconds_per_beat)
 
         # Slow Waltz - Step 3
         f.add_leader_step(Step.Foot.LEFT, self.pixels_per_side_step, 0, 0, self.seconds_per_beat)
@@ -33,8 +33,8 @@ class Waltz(Dance.Dance):
         f.add_follower_step(Step.Foot.LEFT, 0, self.pixels_per_front_step, 0, self.seconds_per_beat)
 
         # Slow Waltz - Step 5
-        f.add_leader_step(Step.Foot.LEFT, -self.pixels_per_side_step, -self.pixels_per_front_step, 0, self.seconds_per_beat)
-        f.add_follower_step(Step.Foot.RIGHT, self.pixels_per_side_step, self.pixels_per_front_step, 0, self.seconds_per_beat)
+        f.add_leader_step(Step.Foot.LEFT, -self.pixels_per_side_step, -0, 0, self.seconds_per_beat)
+        f.add_follower_step(Step.Foot.RIGHT, self.pixels_per_side_step, 0, 0, self.seconds_per_beat)
 
         # Slow Waltz - Step 6
         f.add_leader_step(Step.Foot.RIGHT, -self.pixels_per_side_step, 0, 0, self.seconds_per_beat)
