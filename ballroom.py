@@ -29,16 +29,16 @@ class MyApplication(arcade.Window):
         self.leader = Dancer.Dancer()
         self.follower = Dancer.Dancer()
 
-        self.leader.load_supporting_foot_texture(Step.Foot.LEFT, "man_left_foot.jpg")
-        self.leader.load_supporting_foot_texture(Step.Foot.RIGHT, "man_right_foot.jpg")
-        self.leader.load_free_foot_texture(Step.Foot.LEFT, "man_left_free_foot.jpg")
-        self.leader.load_free_foot_texture(Step.Foot.RIGHT, "man_right_free_foot.jpg")
+        self.leader.load_supporting_foot_texture(Step.Foot.LEFT, "Images/man_left_foot.jpg")
+        self.leader.load_supporting_foot_texture(Step.Foot.RIGHT, "Images/man_right_foot.jpg")
+        self.leader.load_free_foot_texture(Step.Foot.LEFT, "Images/man_left_free_foot.jpg")
+        self.leader.load_free_foot_texture(Step.Foot.RIGHT, "Images/man_right_free_foot.jpg")
         self.leader.set_free_foot(Step.Foot.LEFT)
 
-        self.follower.load_supporting_foot_texture(Step.Foot.LEFT, "lady_left_foot.jpg")
-        self.follower.load_supporting_foot_texture(Step.Foot.RIGHT, "lady_right_foot.jpg")
-        self.follower.load_free_foot_texture(Step.Foot.LEFT, "lady_left_free_foot.jpg")
-        self.follower.load_free_foot_texture(Step.Foot.RIGHT, "lady_right_free_foot.jpg")
+        self.follower.load_supporting_foot_texture(Step.Foot.LEFT, "Images/lady_left_foot.jpg")
+        self.follower.load_supporting_foot_texture(Step.Foot.RIGHT, "Images/lady_right_foot.jpg")
+        self.follower.load_free_foot_texture(Step.Foot.LEFT, "Images/lady_left_free_foot.jpg")
+        self.follower.load_free_foot_texture(Step.Foot.RIGHT, "Images/lady_right_free_foot.jpg")
         self.follower.set_free_foot(Step.Foot.RIGHT)
 
         # eventually the user should be able to choose the start position
