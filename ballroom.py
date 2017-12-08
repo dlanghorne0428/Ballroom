@@ -6,6 +6,7 @@ import Step
 import Menu
 import Waltz
 import Rumba
+import pyglet
 
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
@@ -47,6 +48,8 @@ class MyApplication(arcade.Window):
         self.follower.set_right_position(350, 300, 180)
         
         self.menu = Menu.Menu()
+        pyglet.options['search_local_libs'] = True
+        pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
             
         # Note:
         # You can change how often the animate() method is called by using the

@@ -116,7 +116,7 @@ class Menu():
             if key == arcade.key.SPACE:
                 print("You pressed the space bar - Dance is starting.")
                 self.current_state = MenuState.DANCING
-                # self.current_dance.play_song()
+                #self.current_dance.play_song()
                 # should dispatch an event here to start the routine
 
         elif self.current_state == MenuState.DANCING:
