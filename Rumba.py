@@ -112,5 +112,5 @@ class Rumba(Dance.Dance):
         self.figure_list.append(self.cuban_walk_forward())
 
     def load_songs(self):
-        self.song_list.append(arcade.sound.load_sound("Music/-04- She Will Be Loved.mp3"))
-        # self.song_list.append(pyglet.media.load("Music/-04- She Will Be Loved.mp3"))
+        # self.song_list.append(arcade.sound.load_sound("Music/-04- She Will Be Loved.mp3"))
+        self.song_list.append(pyglet.media.load("Music/-04- She Will Be Loved.mp3"))
