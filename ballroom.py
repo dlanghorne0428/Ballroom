@@ -106,12 +106,12 @@ class MyApplication(arcade.Window):
 
         new_state = self.menu.process_key(key, key_modifiers)
 
-        # see if user is done entering the routine, this should be a separate event
+        # see if user is done entering the routine
         if new_state == Menu.MenuState.READY_TO_START:
             for fig in self.menu.current_routine:
                 self.load_figure(fig)
 
-        # see if user is ready to dance, this should be a separate event
+        # see if user is ready to dance
         elif new_state == Menu.MenuState.DANCING:
             self.leader.start_next_step()
             self.follower.start_next_step()
