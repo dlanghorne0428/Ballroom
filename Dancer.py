@@ -30,7 +30,7 @@ class Dancer():
         self.supporting_foot_texture[foot] = arcade.load_texture(filename)
 
     def set_position (self, foot, x, y, angle):
-        self.position[foot].set_position(x, y, angle)
+        self.position[foot].set(x, y, angle)
 
     def set_free_foot(self, foot):
         self.free_foot = foot

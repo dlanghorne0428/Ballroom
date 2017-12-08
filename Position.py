@@ -5,7 +5,7 @@ class Position():
         self.y = 0
         self.angle = 0
 
-    def set_position(self, x, y, angle):
+    def set(self, x, y, angle):
         self.x = x
         self.y = y
         self.angle = angle
