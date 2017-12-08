@@ -1,5 +1,6 @@
 import Step
 import Dance
+import Song
 import pyglet
 import arcade
 
@@ -7,8 +8,6 @@ class Rumba(Dance.Dance):
 
     def __init__(self):
         super().__init__()
-        self.beats_per_minute = 102   # BPM should come from song
-        self.seconds_per_beat = 60 / self.beats_per_minute
         self.name = arcade.create_text("R: Rumba", arcade.color.BLACK, 14)
 
     def rumba_box(self):
@@ -113,4 +112,5 @@ class Rumba(Dance.Dance):
 
     def load_songs(self):
         # self.song_list.append(arcade.sound.load_sound("Music/-04- She Will Be Loved.mp3"))
-        self.song_list.append(pyglet.media.load("Music/-04- She Will Be Loved.mp3"))
+        #self.song_list.append(pyglet.media.load("Music/Rumba/She Will Be Loved.mp3"))
+        self.song_list.append(Song.Song("Music/Rumba/She Will Be Loved.mp3", 102))

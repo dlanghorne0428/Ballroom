@@ -37,6 +37,7 @@ class Menu():
         self.current_routine = []
 
         self.dance_prompt = arcade.create_text("SELECT A DANCE", arcade.color.BLACK, 14, bold=True)
+        self.song_prompt = arcade.create_text("Select a song", arcade.color.BLACK, 14, bold=True, italic=True)
         self.routine_prompt = arcade.create_text("Create a routine", arcade.color.BLACK, 14, bold=True, italic=True)
         self.avail_prompt = arcade.create_text("Available Figures", arcade.color.BLACK, 14, bold=True, italic=True)
         self.done_prompt = arcade.create_text("0: Stop adding figures", arcade.color.BLACK, 14)
@@ -51,6 +52,16 @@ class Menu():
                 d = self.dance_menu[index]
                 d.draw_name(50, 480-index*20)
                 index += 1
+
+        elif self.current_state == MenuState.SELECT_SONG:
+            self.current_dance.draw_name(50, 500)
+            arcade.render_text(self.song_prompt, 50, 480)
+            index = 0
+            while index < len(self.current_dance.song_list):
+                s = self.current_dance.song_list[index]
+                s.draw_menu_entry(50, 460-index*20)
+                index += 1
+
         elif self.current_state == MenuState.SELECT_FIGURE:
             self.current_dance.draw_name(50, 500)
             arcade.render_text(self.routine_prompt, 50, 480)
@@ -96,14 +107,18 @@ class Menu():
             if self.current_dance is None:
                 pass
             else:
-                self.current_state = MenuState.SELECT_FIGURE
+                self.current_state = MenuState.SELECT_SONG
                 state_transition = self.current_state
+                self.current_dance.load_songs()
+
+        elif self.current_state == MenuState.SELECT_SONG:
+            if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
+                index = key - arcade.key.KEY_1
+                self.current_dance.select_song(index)
+                self.current_state = MenuState.SELECT_FIGURE
                 self.current_dance.load_figures()
                 self.current_dance.current_figure = None
-                self.current_dance.load_songs()
-                self.current_dance.select_song(0)  # should show a menu of songs
-
-
+                state_transition = self.current_state
 
         elif self.current_state == MenuState.SELECT_FIGURE:
             if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
