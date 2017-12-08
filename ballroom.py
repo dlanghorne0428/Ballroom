@@ -25,47 +25,47 @@ class MyApplication(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
         arcade.set_background_color(arcade.color.WHITE)
-                
+
         self.leader = Dancer.Dancer()
         self.follower = Dancer.Dancer()
-        
+
         self.leader.load_supporting_foot_texture(Step.Foot.LEFT, "man_left_foot.jpg")
         self.leader.load_supporting_foot_texture(Step.Foot.RIGHT, "man_right_foot.jpg")
         self.leader.load_free_foot_texture(Step.Foot.LEFT, "man_left_free_foot.jpg")
         self.leader.load_free_foot_texture(Step.Foot.RIGHT, "man_right_free_foot.jpg")
         self.leader.set_free_foot(Step.Foot.LEFT)
-        
+
         self.follower.load_supporting_foot_texture(Step.Foot.LEFT, "lady_left_foot.jpg")
         self.follower.load_supporting_foot_texture(Step.Foot.RIGHT, "lady_right_foot.jpg")
         self.follower.load_free_foot_texture(Step.Foot.LEFT, "lady_left_free_foot.jpg")
-        self.follower.load_free_foot_texture(Step.Foot.RIGHT, "lady_right_free_foot.jpg")   
+        self.follower.load_free_foot_texture(Step.Foot.RIGHT, "lady_right_free_foot.jpg")
         self.follower.set_free_foot(Step.Foot.RIGHT)
 
         # eventually the user should be able to choose the start position
-        self.leader.set_left_position(300, 120, 0)
-        self.leader.set_right_position(400, 120, 0)
-        self.follower.set_left_position(450, 300, 180)
-        self.follower.set_right_position(350, 300, 180)
-        
+        self.leader.set_position(Step.Foot.LEFT, 300, 120, 0)
+        self.leader.set_position(Step.Foot.RIGHT,400, 120, 0)
+        self.follower.set_position(Step.Foot.LEFT, 450, 300, 180)
+        self.follower.set_position(Step.Foot.RIGHT, 350, 300, 180)
+
         self.menu = Menu.Menu()
         pyglet.options['search_local_libs'] = True
         pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-            
+
         # Note:
         # You can change how often the animate() method is called by using the
         # set_update_rate() method in the parent class.
         # The default is once every 1/80 of a second.
         # self.set_update_rate(1/80)
-        
 
-    def load_figure(self, figure):        
+
+    def load_figure(self, figure):
         for step in figure.leader_steps:
             self.leader.add_step(step)
-            
-        for step in figure.follower_steps:
-            self.follower.add_step(step) 
 
-        
+        for step in figure.follower_steps:
+            self.follower.add_step(step)
+
+
     def on_draw(self):
         """
         Render the screen.
@@ -74,7 +74,7 @@ class MyApplication(arcade.Window):
         # This command should happen before we start drawing. It will clear
         # the screen to the background color, and erase what we drew last frame.
         arcade.start_render()
-        
+
         # draw the menu
         self.menu.draw()
 
@@ -82,14 +82,14 @@ class MyApplication(arcade.Window):
         self.leader.draw()
         self.follower.draw()
 
-        
+
     def update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
         """
-        # update the position of each dancer        
+        # update the position of each dancer
         self.leader.update(delta_time)
-        self.follower.update(delta_time)        
+        self.follower.update(delta_time)
 
 
     def on_key_press(self, key, key_modifiers):
@@ -102,15 +102,15 @@ class MyApplication(arcade.Window):
 
         if key == arcade.key.ESCAPE:
             self.close()
-            
+
 
         self.menu.process_key(key, key_modifiers)
-        
+
         # see if user is done entering the routine, this should be a separate event
         if key == arcade.key.KEY_0:
             for fig in self.menu.current_routine:
                 self.load_figure(fig)
-                
+
         # see if user is ready to start, this should be a separate event
         if key == arcade.key.SPACE:
             self.leader.start_next_step()

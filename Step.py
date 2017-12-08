@@ -35,17 +35,17 @@ class Step():
             self.y_distance_right = y_dist_r
             self.rotation_angle_right = rot_r
 
-    def get_update_vector(self, foot, current_left_pos, current_right_pos):
+    def get_update_vector(self, foot, current_pos):
         upd_vec = Position.Position()
         if foot == self.foot:
             if foot == Foot.LEFT:
                 upd_vec.x = self.x_distance_left / self.duration
-                y_offset = (current_right_pos.y - current_left_pos.y) * math.cos(math.radians(current_left_pos.angle))
+                y_offset = (current_pos[Foot.RIGHT].y - current_pos[Foot.LEFT].y) * math.cos(math.radians(current_pos[Foot.LEFT].angle))
                 upd_vec.y = (self.y_distance_left + y_offset) / self.duration
                 upd_vec.angle = self.rotation_angle_left / self.duration
             else:
                 upd_vec.x = self.x_distance_right / self.duration
-                y_offset = (current_left_pos.y - current_right_pos.y) * math.cos(math.radians(current_right_pos.angle))
+                y_offset = (current_pos[Foot.LEFT].y - current_pos[Foot.RIGHT].y) * math.cos(math.radians(current_pos[Foot.RIGHT].angle))
                 upd_vec.y = (self.y_distance_right + y_offset) / self.duration
                 upd_vec.angle = self.rotation_angle_right / self.duration
 
