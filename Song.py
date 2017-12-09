@@ -1,14 +1,33 @@
 import arcade
 import pyglet
 
+def base_filename(index, filename):
+    done = False
+    #strip off the folder names
+    while not done:
+        pos = filename.find("/")
+        if pos == -1:
+            done = True
+        else:
+            filename = filename[pos+1:]
+
+    # strip off the extension
+    pos = filename.find(".")
+    if pos != -1:
+        filename = filename[:pos]
+
+    filename = str(index) + ". " + filename
+
+    return filename
+
 class Song():
 
-    def __init__(self, filename, bpm, seek = 0):
+    def __init__(self, index, filename, bpm, seek = 0):
         self.filename = filename
         self.bpm = bpm
         self.seek = seek
-        # strip this down to the base filename
-        self.menu_text = arcade.create_text(self.filename, arcade.color.BLACK, 14)
+        self.menu_entry = base_filename(index, self.filename)
+        self.menu_text = arcade.create_text(self.menu_entry, arcade.color.BLACK, 14)
         self.audio_stream = None
         self.player = None
 

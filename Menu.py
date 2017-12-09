@@ -114,16 +114,18 @@ class Menu():
         elif self.current_state == MenuState.SELECT_SONG:
             if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
                 index = key - arcade.key.KEY_1
-                self.current_dance.select_song(index)
-                self.current_state = MenuState.SELECT_FIGURE
-                self.current_dance.load_figures()
-                self.current_dance.current_figure = None
-                state_transition = self.current_state
+                if index < len(self.current_dance.song_list):
+                    self.current_dance.select_song(index)
+                    self.current_state = MenuState.SELECT_FIGURE
+                    self.current_dance.load_figures()
+                    self.current_dance.current_figure = None
+                    state_transition = self.current_state
 
         elif self.current_state == MenuState.SELECT_FIGURE:
             if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
                 index = key - arcade.key.KEY_1
-                self.current_routine.append(self.current_dance.get_figure(index))
+                if index < len(self.current_dance.figure_list):
+                    self.current_routine.append(self.current_dance.get_figure(index))
             elif key == arcade.key.KEY_0:
                 if len(self.current_routine) > 0:
                     self.current_state = MenuState.READY_TO_START

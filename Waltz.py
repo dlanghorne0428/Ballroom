@@ -22,11 +22,11 @@ class Waltz(Dance.Dance):
 
         # Slow Waltz - Step 2
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))        
+        f.add_follower_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
 
         # Slow Waltz - Step 3
         f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))        
+        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
 
         # Slow Waltz - Step 4
         f.add_leader_step(Step.Backward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
@@ -38,7 +38,7 @@ class Waltz(Dance.Dance):
 
         # Slow Waltz - Step 6
         f.add_leader_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))         
+        f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
 
         return f
 
@@ -46,5 +46,5 @@ class Waltz(Dance.Dance):
         self.figure_list.append(self.box_step())
 
     def load_songs(self):
-        self.song_list.append(Song.Song("Music/Waltz/Come Away With Me.mp3", 80, 17.25))
-        self.song_list.append(Song.Song("Music/Waltz/Dark Waltz.mp3", 87, 17))
+        self.song_list.append(Song.Song(1, "Music/Waltz/Come Away With Me.mp3", 80, 17.25))
+        self.song_list.append(Song.Song(2, "Music/Waltz/Dark Waltz.mp3", 87, 17))
