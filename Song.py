@@ -45,3 +45,6 @@ class Song():
             self.player.queue(self.audio_stream)
             self.player.seek(self.seek)
             self.player.play()
+
+    def pause(self):
+        self.player.pause()

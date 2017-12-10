@@ -31,3 +31,6 @@ class Dance():
 
     def play_song(self):
         self.current_song.play()
+
+    def pause_song(self):
+        self.current_song.pause()
