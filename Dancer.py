@@ -58,8 +58,10 @@ class Dancer():
             self.current_time += delta_time
             if self.current_time < self.time_at_step_end:
                 for foot in range(Step.Foot.BOTH):
-                    self.position[foot].x += self.delta_pos[foot].x * delta_time * math.sin(math.radians(self.position[foot].angle+90))
-                    self.position[foot].y += self.delta_pos[foot].y * delta_time * math.cos(math.radians(self.position[foot].angle))
+                    self.position[foot].x += self.delta_pos[foot].x * delta_time
+                    self.position[foot].y += self.delta_pos[foot].y * delta_time
+                    # self.position[foot].x += self.delta_pos[foot].x * delta_time * math.sin(math.radians(self.position[foot].angle+90))
+                    # self.position[foot].y += self.delta_pos[foot].y * delta_time * math.cos(math.radians(self.position[foot].angle))
                     self.position[foot].angle += self.delta_pos[foot].angle * delta_time
             else:
                 self.start_next_step()

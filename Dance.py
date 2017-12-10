@@ -10,7 +10,7 @@ class Dance():
         self.name = None
         self.current_figure = None
         self.current_song = None
-        self.beats_per_minute = 120   # BPM should come from song
+        self.beats_per_minute = 120   # BPM is provided by the selected song
         self.seconds_per_beat = 60 / self.beats_per_minute
 
     def get_figure(self, index):

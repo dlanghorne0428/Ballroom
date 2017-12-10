@@ -43,9 +43,9 @@ class MyApplication(arcade.Window):
 
         # eventually the user should be able to choose the start position
         self.leader.set_position(Step.Foot.LEFT, 300, 120, 0)
-        self.leader.set_position(Step.Foot.RIGHT,400, 120, 0)
-        self.follower.set_position(Step.Foot.LEFT, 450, 300, 180)
-        self.follower.set_position(Step.Foot.RIGHT, 350, 300, 180)
+        self.leader.set_position(Step.Foot.RIGHT,380, 120, 0)
+        self.follower.set_position(Step.Foot.LEFT, 420, 280, 180)
+        self.follower.set_position(Step.Foot.RIGHT, 340, 280, 180)
 
         self.menu = Menu.Menu()
         pyglet.options['search_local_libs'] = True
