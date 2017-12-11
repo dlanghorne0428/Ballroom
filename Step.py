@@ -81,11 +81,11 @@ class Side(Step):
     def calc_new_position(self):
         new_pos = Position.Position()
         new_pos.x = self.reference.x \
-                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle+90)) 
+                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle+90))
         new_pos.y = self.reference.y \
-                  + (self.stride + self.spread) * math.cos(math.radians(self.reference.angle+90))
+                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle))
         new_pos.angle = self.reference.angle
-            
+
         return new_pos
 
 class Close(Step):
@@ -95,12 +95,12 @@ class Close(Step):
 
     def calc_new_position(self):
         new_pos = Position.Position()
-        new_pos.x = self.reference.x + self.spread * math.sin(math.radians(self.reference.angle+90)) 
-        new_pos.y = self.reference.y + self.spread * math.cos(math.radians(self.reference.angle+90))
+        new_pos.x = self.reference.x + self.spread * math.sin(math.radians(self.reference.angle+90))
+        new_pos.y = self.reference.y + self.spread * math.sin(math.radians(self.reference.angle))
         new_pos.angle = self.reference.angle
-        
+
         return new_pos
-            
+
 
 class Complex_Step(Step):
 
