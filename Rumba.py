@@ -17,16 +17,16 @@ class Rumba(Dance.Dance):
         pixels_per_side_step = 80
 
         # Rumba - Step 1 Slow
-        f.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.seconds_per_beat * 2))
-        f.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.seconds_per_beat * 2))
-    
+        f.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step * 0.5, self.seconds_per_beat * 2, pre_step_turn=20, rotation=25))
+        f.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step * 1.5, self.seconds_per_beat * 2, pre_step_turn=70, rotation=-25))
+
         # Rumba - Step 2 Quick
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat))   
+        f.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat))
 
         # Rumba - Step 3 Quick
         f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))  
+        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
 
         # Rumba - Step 4 Slow
         f.add_leader_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.seconds_per_beat * 2))
@@ -34,11 +34,11 @@ class Rumba(Dance.Dance):
 
         # Rumba - Step 5 Quick
         f.add_leader_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat)) 
+        f.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat))
 
         # Rumba - Step 6 Quick
         f.add_leader_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))  
+        f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
 
         return f
 
@@ -50,7 +50,7 @@ class Rumba(Dance.Dance):
 
         # Rumba - Step 1 Slow : left foot side
         f.add_leader_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))
-        f.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))    
+        f.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))
 
         # Rumba - Step 2 Quick: rock back on right
         f.add_leader_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.seconds_per_beat))
@@ -62,7 +62,7 @@ class Rumba(Dance.Dance):
 
         # Rumba - Step 4 Slow : right foot side
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))    
+        f.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))
 
         # Rumba - Step 5 Quick: rock forward on left
         f.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.seconds_per_beat))
@@ -111,4 +111,4 @@ class Rumba(Dance.Dance):
         self.figure_list.append(self.cuban_walk_forward())
 
     def load_songs(self):
-        self.song_list.append(Song.Song("Music/Rumba/She Will Be Loved.mp3", 102, 5.0))
+        self.song_list.append(Song.Song(1, "Music/Rumba/She Will Be Loved.mp3", 102, 5.0))

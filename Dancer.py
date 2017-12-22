@@ -45,23 +45,22 @@ class Dancer():
             self.free_foot = step_data.foot
             self.time_at_step_end = self.current_time + step_data.duration
             for foot in range(Step.Foot.BOTH):
+                self.position[foot].angle += step_data.get_pre_step_turn(foot)
                 self.delta_pos[foot] = step_data.get_update_vector(foot, self.position)
 
         else:
             for foot in range(Step.Foot.BOTH):
                 self.delta_pos[foot] = Position.NO_MOVEMENT
-            self.current_step = -1   # start over, should raise an event here
+            # self.current_step = -1   # start over, should raise an event here
 
 
     def update(self, delta_time):
-        if self.current_step > -1:
+        if self.current_step > -1 and self.current_step < len(self.routine):
             self.current_time += delta_time
             if self.current_time < self.time_at_step_end:
                 for foot in range(Step.Foot.BOTH):
                     self.position[foot].x += self.delta_pos[foot].x * delta_time
                     self.position[foot].y += self.delta_pos[foot].y * delta_time
-                    # self.position[foot].x += self.delta_pos[foot].x * delta_time * math.sin(math.radians(self.position[foot].angle+90))
-                    # self.position[foot].y += self.delta_pos[foot].y * delta_time * math.cos(math.radians(self.position[foot].angle))
                     self.position[foot].angle += self.delta_pos[foot].angle * delta_time
             else:
                 self.start_next_step()

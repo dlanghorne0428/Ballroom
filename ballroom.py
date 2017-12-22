@@ -91,6 +91,11 @@ class MyApplication(arcade.Window):
         self.leader.update(delta_time)
         self.follower.update(delta_time)
 
+        # see if dance has finished
+        if self.menu.current_state == Menu.MenuState.DANCING and self.leader.current_step == len(self.leader.routine):
+            self.menu.current_dance.pause_song()
+            self.menu.current_state = Menu.MenuState.SELECT_FIGURE
+
 
     def on_key_press(self, key, key_modifiers):
         """
