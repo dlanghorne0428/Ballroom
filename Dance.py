@@ -30,7 +30,7 @@ class Dance():
         self.current_song.load()
 
     def play_song(self):
-        if self_current_song is not None:
+        if self.current_song is not None:
             self.current_song.play()
 
     def pause_song(self):
