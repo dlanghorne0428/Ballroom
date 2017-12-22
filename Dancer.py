@@ -45,6 +45,7 @@ class Dancer():
             self.free_foot = step_data.foot
             self.time_at_step_end = self.current_time + step_data.duration
             for foot in range(Step.Foot.BOTH):
+                self.position[foot].angle += step_data.get_pre_step_turn(foot)
                 self.delta_pos[foot] = step_data.get_update_vector(foot, self.position)
 
         else:
