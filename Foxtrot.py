@@ -1,4 +1,5 @@
 import Step
+from Figure import Figure
 import Dance
 import Song
 import arcade
@@ -11,7 +12,7 @@ class Foxtrot(Dance.Dance):
         self.name = arcade.create_text("F: Foxtrot", arcade.color.BLACK, 14)
 
     def basic(self):
-        f = Step.Figure("1: Basic")
+        f = Figure("1: Basic")
         self.forward_pixels = 210
         self.side_pixels = 80
 

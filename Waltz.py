@@ -1,5 +1,5 @@
 import Step
-
+from Figure import Figure
 import Dance
 import Song
 import arcade
@@ -12,7 +12,7 @@ class Waltz(Dance.Dance):
         Step.Step:set_spread(80)
 
     def left_box_turn(self):
-        f = Step.Figure("1: Left Box Turn")
+        f = Figure("1: Left Box Turn")
         self.forward_pixels = 160
         self.side_pixels = 120
 
@@ -43,7 +43,7 @@ class Waltz(Dance.Dance):
         return f
 
     def right_box_turn(self):
-        f = Step.Figure("2: Right Box Turn")
+        f = Figure("2: Right Box Turn")
         self.forward_pixels = 160
         self.side_pixels = 120
 
@@ -74,7 +74,7 @@ class Waltz(Dance.Dance):
         return f
 
     def forward_chg_step(self):
-        f = Step.Figure("3: Forward Change Step")
+        f = Figure("3: Forward Change Step")
         self.forward_pixels = 160
         self.side_pixels = 120
 

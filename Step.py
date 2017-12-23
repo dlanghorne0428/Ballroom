@@ -152,21 +152,3 @@ class Complex_Step(Step):
                 upd_vec.angle = self.rotation_angle_right / self.duration
 
         return upd_vec
-
-
-class Figure():
-    # a Figure is a list of steps for both leader and follower
-
-    def __init__(self, name):
-        self.leader_steps = []
-        self.follower_steps = []
-        self.name = arcade.create_text(name, arcade.color.BLACK, 14)
-
-    def add_leader_step(self, s):
-        self.leader_steps.append(s)
-
-    def add_follower_step(self, s):
-        self.follower_steps.append(s)
-
-    def draw_name(self, x, y):
-        arcade.render_text(self.name, x, y)
