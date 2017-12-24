@@ -12,7 +12,7 @@ class Waltz(Dance.Dance):
         Step.Step:set_spread(80)
 
     def left_box_turn(self):
-        f = Figure("1: Left Box Turn")
+        f = Figure("Left Box Turn")
         self.forward_pixels = 160
         self.side_pixels = 120
 
@@ -43,7 +43,7 @@ class Waltz(Dance.Dance):
         return f
 
     def right_box_turn(self):
-        f = Figure("2: Right Box Turn")
+        f = Figure("Right Box Turn")
         self.forward_pixels = 160
         self.side_pixels = 120
 
@@ -73,8 +73,8 @@ class Waltz(Dance.Dance):
 
         return f
 
-    def forward_chg_step(self):
-        f = Figure("3: Forward Change Step")
+    def change_step(self):
+        f = Figure("Change Step")
         self.forward_pixels = 160
         self.side_pixels = 120
 
@@ -92,10 +92,21 @@ class Waltz(Dance.Dance):
 
         return f
 
-    def load_figures(self):
-        self.figure_list.append(self.left_box_turn())
-        self.figure_list.append(self.right_box_turn())
-        self.figure_list.append(self.forward_chg_step())
+    def load_figure_names(self):
+        self.figure_names.append(arcade.create_text("1: Left Box Turn", arcade.color.BLACK, 14))
+        self.figure_names.append(arcade.create_text("2. Right Box Turn", arcade.color.BLACK, 14))
+        self.figure_names.append(arcade.create_text("3: Change Step", arcade.color.BLACK, 14))
+
+    def select_figure(self, index):
+        if index == 0:
+            self.current_figure = self.left_box_turn()
+        elif index == 1:
+            self.current_figure = self.right_box_turn()
+        else:
+            self.current_figure = self.change_step()
+        if not self.current_figure.customization_needed:
+            self.current_routine.append(self.current_figure)
+        return self.current_figure
 
     def load_songs(self):
         self.song_list.append(Song.Song(1, "Music/Waltz/Come Away With Me.mp3", 80, 17.25))

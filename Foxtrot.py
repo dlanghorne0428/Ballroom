@@ -12,7 +12,7 @@ class Foxtrot(Dance.Dance):
         self.name = arcade.create_text("F: Foxtrot", arcade.color.BLACK, 14)
 
     def basic(self):
-        f = Figure("1: Basic")
+        f = Figure("Basic")
         self.forward_pixels = 210
         self.side_pixels = 80
 
@@ -34,8 +34,15 @@ class Foxtrot(Dance.Dance):
 
         return f
 
-    def load_figures(self):
-        self.figure_list.append(self.basic())
+    def load_figure_names(self):
+        self.figure_names.append(arcade.create_text("1: Basic", arcade.color.BLACK, 14))
+
+    def select_figure(self, index):
+        if index == 0:
+            self.current_figure = self.basic()
+        if not self.current_figure.customization_needed:
+            self.current_routine.append(self.current_figure)
+        return self.current_figure
 
     def load_songs(self):
         self.song_list.append(Song.Song(1, "Music/Foxtrot/The Pink Panther Theme.mp3", 116))

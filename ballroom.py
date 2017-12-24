@@ -113,7 +113,7 @@ class MyApplication(arcade.Window):
 
         # see if user is done entering the routine
         if new_state == Menu.MenuState.READY_TO_START:
-            for fig in self.menu.current_routine:
+            for fig in self.menu.current_dance.current_routine:
                 self.load_figure(fig)
 
         # see if user is ready to dance

@@ -32,10 +32,7 @@ class Menu():
         # more dances go here
 
         self.current_dance = None
-        self.current_figure = None
-
-        # a routine is a list of figures. Start with an empty routine
-        self.current_routine = []
+        # self.current_figure = None
 
         self.dance_prompt = arcade.create_text("SELECT A DANCE", arcade.color.BLACK, 14, bold=True)
         self.song_prompt = arcade.create_text("Select a song", arcade.color.BLACK, 14, bold=True, italic=True)
@@ -73,16 +70,17 @@ class Menu():
             arcade.render_text(self.routine_prompt, 50, 480)
 
             routine_index = 0
-            while routine_index < len(self.current_routine):
-                f = self.current_routine[routine_index]
-                f.draw_name(50, 460-routine_index*20)
+            r = self.current_dance.current_routine
+            while routine_index < len(r):
+                fig = r[routine_index]
+                fig.draw_name(50, 460-routine_index*20)
                 routine_index += 1
 
             arcade.render_text(self.avail_prompt, 50, 440-routine_index*20)
             figure_index = 0
-            while figure_index < len(self.current_dance.figure_list):
-                f = self.current_dance.figure_list[figure_index]
-                f.draw_name(50, 420-(figure_index+routine_index)*20)
+            while figure_index < len(self.current_dance.figure_names):
+                name = self.current_dance.figure_names[figure_index]
+                arcade.render_text(name, 50, 420-(figure_index+routine_index)*20)
                 figure_index += 1
 
             arcade.render_text(self.done_prompt, 50, 400-(figure_index+routine_index)*20)
@@ -92,16 +90,18 @@ class Menu():
             arcade.render_text(self.routine_prompt, 50, 480)
 
             routine_index = 0
-            while routine_index < len(self.current_routine):
-                f = self.current_routine[routine_index]
-                f.draw_name(50, 460-routine_index*20)
+            r = self.current_dance.current_routine
+            while routine_index < len(r):
+                fig = r[routine_index]
+                fig.draw_name(50, 460-routine_index*20)
                 routine_index += 1
 
-            self.current_figure.draw_name(50, 460-routine_index*20)
+            f = self.current_dance.current_figure
+            f.draw_name(50, 460-routine_index*20)
             arcade.render_text(self.customize_prompt, 50, 440-routine_index*20)
             custom_index = 0
-            while custom_index < len(self.current_figure.menu_items):
-                self.current_figure.draw_menu_item(custom_index, 50, 420-(custom_index+routine_index)*20)
+            while custom_index < len(f.menu_items):
+                f.draw_menu_item(custom_index, 50, 420-(custom_index+routine_index)*20)
                 custom_index += 1
 
         elif self.current_state == MenuState.READY_TO_START:
@@ -144,35 +144,33 @@ class Menu():
                 if index < len(self.current_dance.song_list):
                     self.current_dance.select_song(index)
                     self.current_state = MenuState.SELECT_FIGURE
-                    self.current_dance.load_figures()
+                    self.current_dance.load_figure_names()
                     self.current_dance.current_figure = None
                     state_transition = self.current_state
             elif key == arcade.key.KEY_0:
                 self.current_state = MenuState.SELECT_FIGURE
-                self.current_dance.load_figures()
+                self.current_dance.load_figure_names()
                 self.current_dance.current_figure = None
                 state_transition = self.current_state
 
         elif self.current_state == MenuState.SELECT_FIGURE:
             if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
                 index = key - arcade.key.KEY_1
-                if index < len(self.current_dance.figure_list):
-                    self.current_figure = self.current_dance.get_figure(index)
-                    if self.current_figure.customization_needed:
+                if index < len(self.current_dance.figure_names):
+                    f = self.current_dance.select_figure(index)
+                    if f.customization_needed:
                         self.current_state = MenuState.CUSTOMIZE_FIGURE
-                    else:
-                        self.current_routine.append(self.current_dance.get_figure(index))
             elif key == arcade.key.KEY_0:
-                if len(self.current_routine) > 0:
+                if len(self.current_dance.current_routine) > 0:
                     self.current_state = MenuState.READY_TO_START
                     state_transition = self.current_state
 
         elif self.current_state == MenuState.CUSTOMIZE_FIGURE:
             if key >= arcade.key.A and key <= arcade.key.Z:
                 index = key - arcade.key.A
-                if index < len(self.current_figure.menu_items):
-                    self.current_figure.customize(index)
-                    self.current_routine.append(self.current_figure)
+                f = self.current_dance.current_figure
+                if index < len(f.menu_items):
+                    self.current_dance.customize_current_figure(index)
                     self.current_state = MenuState.SELECT_FIGURE
 
         # See if the user just hit space.
