@@ -32,7 +32,6 @@ class Menu():
         # more dances go here
 
         self.current_dance = None
-        # self.current_figure = None
 
         self.dance_prompt = arcade.create_text("SELECT A DANCE", arcade.color.BLACK, 14, bold=True)
         self.song_prompt = arcade.create_text("Select a song", arcade.color.BLACK, 14, bold=True, italic=True)
