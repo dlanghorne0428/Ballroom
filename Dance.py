@@ -1,10 +1,15 @@
 import arcade
 import pyglet
+from Dancer import Dancer
+from Step import Foot
 import Song
 
 class Dance():
 
     def __init__(self):
+
+        self.leader = Dancer()
+        self.follower = Dancer(self.leader)
 
         self.figure_names = []           # list of figures available for a given dance
         self.song_list = []             # list of songs available for a given dance
@@ -26,6 +31,46 @@ class Dance():
             pass
         else:
             arcade.render_text(self.name, x, y)
+
+    def initialize_dancers(self):
+        self.leader.load_supporting_foot_texture(Foot.LEFT, "Images/man_left_foot.jpg")
+        self.leader.load_supporting_foot_texture(Foot.RIGHT, "Images/man_right_foot.jpg")
+        self.leader.load_free_foot_texture(Foot.LEFT, "Images/man_left_free_foot.jpg")
+        self.leader.load_free_foot_texture(Foot.RIGHT, "Images/man_right_free_foot.jpg")
+        self.leader.set_free_foot(Foot.LEFT)
+
+        self.follower.load_supporting_foot_texture(Foot.LEFT, "Images/lady_left_foot.jpg")
+        self.follower.load_supporting_foot_texture(Foot.RIGHT, "Images/lady_right_foot.jpg")
+        self.follower.load_free_foot_texture(Foot.LEFT, "Images/lady_left_free_foot.jpg")
+        self.follower.load_free_foot_texture(Foot.RIGHT, "Images/lady_right_free_foot.jpg")
+        self.follower.set_free_foot(Foot.RIGHT)
+
+        # eventually the user should be able to choose the start position
+        self.leader.set_position(Foot.LEFT, 300, 120, 0)
+        self.leader.set_position(Foot.RIGHT,380, 120, 0)
+        self.follower.set_position(Foot.LEFT, 420, 280, 180)
+        self.follower.set_position(Foot.RIGHT, 340, 280, 180)
+
+    def prepare_dancers(self):
+        # this gives the dancers their routine
+        # perhaps the dancers should only know their next step?
+        for fig in self.current_routine:
+            for lead in fig.leader_steps:
+                self.leader.add_step(lead)
+            for follow in fig.follower_steps:
+                self.follower.add_step(follow)
+
+    def draw_dancers(self):
+        self.leader.draw()
+        self.follower.draw()
+
+    def start_dance(self):
+        self.leader.start_next_step()
+        self.follower.start_next_step()
+
+    def update_dancers(self, delta_time):
+        self.leader.update(delta_time)
+        self.follower.update(delta_time)
 
     def select_song(self, index):
         self.current_song = self.song_list[index]

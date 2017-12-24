@@ -58,12 +58,12 @@ class MyApplication(arcade.Window):
         # self.set_update_rate(1/80)
 
 
-    def load_figure(self, figure):
-        for step in figure.leader_steps:
-            self.leader.add_step(step)
-
-        for step in figure.follower_steps:
-            self.follower.add_step(step)
+    # def load_figure(self, figure):
+    #     for step in figure.leader_steps:
+    #         self.leader.add_step(step)
+    #
+    #     for step in figure.follower_steps:
+    #         self.follower.add_step(step)
 
 
     def on_draw(self):
@@ -75,24 +75,21 @@ class MyApplication(arcade.Window):
         # the screen to the background color, and erase what we drew last frame.
         arcade.start_render()
 
-        # draw the menu
         self.menu.draw()
-
-        # draw each dancer
-        self.leader.draw()
-        self.follower.draw()
-
+        if self.menu.current_dance is not None:
+            self.menu.current_dance.draw_dancers()
 
     def update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
         """
         # update the position of each dancer
-        self.leader.update(delta_time)
-        self.follower.update(delta_time)
+        if self.menu.current_dance is not None:
+            self.menu.current_dance.update_dancers(delta_time)
 
-        # see if dance has finished
-        if self.menu.current_state == Menu.MenuState.DANCING and self.leader.current_step == len(self.leader.routine):
+        # see if dance has finished, there's got to be a better way
+        if (self.menu.current_state == Menu.MenuState.DANCING and
+            self.menu.current_dance.leader.current_step == len(self.menu.current_dance.leader.routine)):
             self.menu.current_dance.pause_song()
             self.menu.current_state = Menu.MenuState.SELECT_FIGURE
 
@@ -108,18 +105,7 @@ class MyApplication(arcade.Window):
         if key == arcade.key.ESCAPE:
             self.close()
 
-
-        new_state = self.menu.process_key(key, key_modifiers)
-
-        # see if user is done entering the routine
-        if new_state == Menu.MenuState.READY_TO_START:
-            for fig in self.menu.current_dance.current_routine:
-                self.load_figure(fig)
-
-        # see if user is ready to dance
-        elif new_state == Menu.MenuState.DANCING:
-            self.leader.start_next_step()
-            self.follower.start_next_step()
+        self.menu.process_key(key, key_modifiers)
 
     def on_key_release(self, key, key_modifiers):
         """

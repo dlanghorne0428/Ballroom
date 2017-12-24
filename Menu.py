@@ -112,21 +112,16 @@ class Menu():
 
     def process_key(self, key, key_modifiers):
 
-        state_transition = None
-
         if self.current_state == MenuState.SELECT_DANCE:
             if key == arcade.key.W:
                 print("You selected Waltz")
                 self.current_dance = self.dance_menu[0]
-
             elif key == arcade.key.F:
                 print("You selected Foxtrot")
                 self.current_dance = self.dance_menu[2]
-
             elif key == arcade.key.R:
                 print("You selected Rumba")
                 self.current_dance = self.dance_menu[4]  # this should be based on name somehow
-
             else:
                 print("Please select a dance from the menu")
 
@@ -134,7 +129,7 @@ class Menu():
                 pass
             else:
                 self.current_state = MenuState.SELECT_SONG
-                state_transition = self.current_state
+                self.current_dance.initialize_dancers()
                 self.current_dance.load_songs()
 
         elif self.current_state == MenuState.SELECT_SONG:
@@ -145,12 +140,10 @@ class Menu():
                     self.current_state = MenuState.SELECT_FIGURE
                     self.current_dance.load_figure_names()
                     self.current_dance.current_figure = None
-                    state_transition = self.current_state
             elif key == arcade.key.KEY_0:
                 self.current_state = MenuState.SELECT_FIGURE
                 self.current_dance.load_figure_names()
                 self.current_dance.current_figure = None
-                state_transition = self.current_state
 
         elif self.current_state == MenuState.SELECT_FIGURE:
             if key >= arcade.key.KEY_1 and key <= arcade.key.KEY_9:
@@ -162,7 +155,7 @@ class Menu():
             elif key == arcade.key.KEY_0:
                 if len(self.current_dance.current_routine) > 0:
                     self.current_state = MenuState.READY_TO_START
-                    state_transition = self.current_state
+                    self.current_dance.prepare_dancers()
 
         elif self.current_state == MenuState.CUSTOMIZE_FIGURE:
             if key >= arcade.key.A and key <= arcade.key.Z:
@@ -177,7 +170,7 @@ class Menu():
             if key == arcade.key.SPACE:
                 print("You pressed the space bar - Dance is starting.")
                 self.current_state = MenuState.DANCING
-                state_transition = self.current_state
+                self.current_dance.start_dance()
                 if self.current_dance.current_song is not None:
                     self.current_dance.play_song()
 
@@ -185,4 +178,3 @@ class Menu():
             pass
             # what to do here?
 
-        return state_transition

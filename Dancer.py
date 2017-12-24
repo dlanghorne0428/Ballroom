@@ -7,7 +7,7 @@ import Position
 
 
 class Dancer():
-    def __init__(self):
+    def __init__(self, leader=None):
         # the current position of the dancer's feet
         self.position = [Position.Position(), Position.Position()]
 
@@ -18,6 +18,9 @@ class Dancer():
         self.free_foot_texture = [None, None]
         self.supporting_foot_texture = [None, None]
         self.free_foot = None
+        
+        # a reference to the leader. If this dancer is the leader, the variable is set to None
+        self.lead_dancer = leader
 
         self.routine = []
         self.current_time = 0
