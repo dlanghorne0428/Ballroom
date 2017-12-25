@@ -37,6 +37,7 @@ class Menu():
         self.song_prompt = arcade.create_text("Select a song", arcade.color.BLACK, 14, bold=True, italic=True)
         self.routine_prompt = arcade.create_text("Create a routine", arcade.color.BLACK, 14, bold=True, italic=True)
         self.avail_prompt = arcade.create_text("Available Figures", arcade.color.BLACK, 14, bold=True, italic=True)
+        self.current_prompt = arcade.create_text("Currently Dancing", arcade.color.BLACK, 14, bold=True, italic=True)
         self.done_prompt = arcade.create_text("0: Stop adding figures", arcade.color.BLACK, 14)
         self.silent_prompt = arcade.create_text("0: No music", arcade.color.BLACK, 14)
         self.start_prompt = arcade.create_text("Press space bar to start", arcade.color.BLACK, 14)
@@ -108,19 +109,18 @@ class Menu():
             arcade.render_text(self.start_prompt, 50, 460)
         elif self.current_state == MenuState.DANCING:
             self.current_dance.draw_name(50, 500)
+            arcade.render_text(self.current_prompt, 50, 480)
+            self.current_dance.current_figure.draw_name(50, 460)
 
 
     def process_key(self, key, key_modifiers):
 
         if self.current_state == MenuState.SELECT_DANCE:
             if key == arcade.key.W:
-                print("You selected Waltz")
                 self.current_dance = self.dance_menu[0]
             elif key == arcade.key.F:
-                print("You selected Foxtrot")
                 self.current_dance = self.dance_menu[2]
             elif key == arcade.key.R:
-                print("You selected Rumba")
                 self.current_dance = self.dance_menu[4]  # this should be based on name somehow
             else:
                 print("Please select a dance from the menu")
@@ -155,7 +155,7 @@ class Menu():
             elif key == arcade.key.KEY_0:
                 if len(self.current_dance.current_routine) > 0:
                     self.current_state = MenuState.READY_TO_START
-                    self.current_dance.prepare_dancers()
+                    # self.current_dance.prepare_dancers()
 
         elif self.current_state == MenuState.CUSTOMIZE_FIGURE:
             if key >= arcade.key.A and key <= arcade.key.Z:

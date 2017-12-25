@@ -1,5 +1,4 @@
 import arcade
-#import copy
 
 class Figure():
     # a Figure is a list of steps for both leader and follower
@@ -10,9 +9,6 @@ class Figure():
         self.name = arcade.create_text(name, arcade.color.BLACK, 14)
         self.menu_items = []
         self.customization_needed = False
-
-    #def copy(self):
-    #    return copy.deepcopy(self)
 
     def add_leader_step(self, s):
         self.leader_steps.append(s)

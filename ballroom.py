@@ -14,13 +14,6 @@ SCREEN_HEIGHT = 768
 
 
 class MyApplication(arcade.Window):
-    """
-    Main application class.
-
-    NOTE: Go ahead and delete the methods you don't need.
-    If you do need a method, delete the 'pass' and replace it
-    with your own code. Don't leave 'pass' in this program.
-    """
 
     def __init__(self, width, height):
         super().__init__(width, height)
@@ -29,24 +22,6 @@ class MyApplication(arcade.Window):
         self.leader = Dancer.Dancer()
         self.follower = Dancer.Dancer()
 
-        self.leader.load_supporting_foot_texture(Step.Foot.LEFT, "Images/man_left_foot.jpg")
-        self.leader.load_supporting_foot_texture(Step.Foot.RIGHT, "Images/man_right_foot.jpg")
-        self.leader.load_free_foot_texture(Step.Foot.LEFT, "Images/man_left_free_foot.jpg")
-        self.leader.load_free_foot_texture(Step.Foot.RIGHT, "Images/man_right_free_foot.jpg")
-        self.leader.set_free_foot(Step.Foot.LEFT)
-
-        self.follower.load_supporting_foot_texture(Step.Foot.LEFT, "Images/lady_left_foot.jpg")
-        self.follower.load_supporting_foot_texture(Step.Foot.RIGHT, "Images/lady_right_foot.jpg")
-        self.follower.load_free_foot_texture(Step.Foot.LEFT, "Images/lady_left_free_foot.jpg")
-        self.follower.load_free_foot_texture(Step.Foot.RIGHT, "Images/lady_right_free_foot.jpg")
-        self.follower.set_free_foot(Step.Foot.RIGHT)
-
-        # eventually the user should be able to choose the start position
-        self.leader.set_position(Step.Foot.LEFT, 300, 120, 0)
-        self.leader.set_position(Step.Foot.RIGHT,380, 120, 0)
-        self.follower.set_position(Step.Foot.LEFT, 420, 280, 180)
-        self.follower.set_position(Step.Foot.RIGHT, 340, 280, 180)
-
         self.menu = Menu.Menu()
         pyglet.options['search_local_libs'] = True
         pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
@@ -54,16 +29,9 @@ class MyApplication(arcade.Window):
         # Note:
         # You can change how often the animate() method is called by using the
         # set_update_rate() method in the parent class.
-        # The default is once every 1/80 of a second.
+        # The default is once every 1/60 of a second.
         # self.set_update_rate(1/80)
 
-
-    # def load_figure(self, figure):
-    #     for step in figure.leader_steps:
-    #         self.leader.add_step(step)
-    #
-    #     for step in figure.follower_steps:
-    #         self.follower.add_step(step)
 
 
     def on_draw(self):
@@ -85,11 +53,11 @@ class MyApplication(arcade.Window):
         """
         # update the position of each dancer
         if self.menu.current_dance is not None:
-            self.menu.current_dance.update_dancers(delta_time)
+            dance_in_progress = self.menu.current_dance.update_dancers(delta_time)
 
-        # see if dance has finished, there's got to be a better way
+        # see if dance has finished
         if (self.menu.current_state == Menu.MenuState.DANCING and
-            self.menu.current_dance.leader.current_step == len(self.menu.current_dance.leader.routine)):
+            not dance_in_progress):
             self.menu.current_dance.pause_song()
             self.menu.current_state = Menu.MenuState.SELECT_FIGURE
 
@@ -99,37 +67,13 @@ class MyApplication(arcade.Window):
         Called whenever a key on the keyboard is pressed.
 
         For a full list of keys, see:
-        http://pythonhosted.org/arcade/arcade.key.html
+        http://arcadeacademy.org/arcade/arcade.key.html
         """
 
         if key == arcade.key.ESCAPE:
             self.close()
 
         self.menu.process_key(key, key_modifiers)
-
-    def on_key_release(self, key, key_modifiers):
-        """
-        Called whenever the user lets off a previously pressed key.
-        """
-        pass
-
-    def on_mouse_motion(self, x, y, delta_x, delta_y):
-        """
-        Called whenever the mouse moves.
-        """
-        pass
-
-    def on_mouse_press(self, x, y, button, key_modifiers):
-        """
-        Called when the user presses a mouse button.
-        """
-        pass
-
-    def on_mouse_release(self, x, y, button, key_modifiers):
-        """
-        Called when a user releases a mouse button.
-        """
-        pass
 
 
 def main():

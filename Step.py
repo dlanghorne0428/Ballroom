@@ -109,6 +109,25 @@ class Close(Step):
         new_pos.angle = self.reference.angle
 
         return new_pos
+    
+class Follow(Step):    
+
+    def __init__(self, foot, duration):
+        super().__init__(foot, duration)
+
+    def update_vector_setup(self, foot, current_pos):
+        if foot == Foot.LEFT:
+            if self.leader is None:
+                self.reference = current_pos[Foot.RIGHT].copy()
+            else:
+                self.reference = self.leader
+            self.start_pos = current_pos[Foot.LEFT].copy()
+            self.spread = -Step.feet_spread_distance
+        else:
+            self.reference = current_pos[Foot.LEFT].copy()
+            self.start_pos = current_pos[Foot.RIGHT].copy()
+            self.spread = Step.feet_spread_distance
+
 
 
 class Complex_Step(Step):

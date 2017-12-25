@@ -22,52 +22,30 @@ class Dancer():
         # a reference to the leader. If this dancer is the leader, the variable is set to None
         self.lead_dancer = leader
 
-        self.routine = []
-        self.current_time = 0
-        self.current_step = -1  # dance hasn't started yet
-
     def load_free_foot_texture(self, foot, filename):
         self.free_foot_texture[foot] = arcade.load_texture(filename)
 
     def load_supporting_foot_texture(self, foot, filename):
         self.supporting_foot_texture[foot] = arcade.load_texture(filename)
 
-    def set_position (self, foot, x, y, angle):
-        self.position[foot].set(x, y, angle)
-
     def set_free_foot(self, foot):
         self.free_foot = foot
 
-    def add_step(self, step):
-        self.routine.append(step)
-
-    def start_next_step(self):
-        self.current_step += 1
-        if self.current_step < len(self.routine):
-            step_data = self.routine[self.current_step]
-            self.free_foot = step_data.foot
-            self.time_at_step_end = self.current_time + step_data.duration
-            for foot in range(Step.Foot.BOTH):
-                self.position[foot].angle += step_data.get_pre_step_turn(foot)
-                self.delta_pos[foot] = step_data.get_update_vector(foot, self.position)
-
-        else:
-            for foot in range(Step.Foot.BOTH):
-                self.delta_pos[foot] = Position.NO_MOVEMENT
-            # self.current_step = -1   # start over, should raise an event here
-
+    def set_position (self, foot, x, y, angle):
+        self.position[foot].set(x, y, angle)
+        
+    def set_delta_pos(self, foot, vector):
+        self.delta_pos[foot].set(vector.x, vector.y, vector.angle)
+        
+    # modify the angle of the given foot before the next step
+    def pivot(self, foot, rotation):
+        self.position[foot].angle += rotation
 
     def update(self, delta_time):
-        if self.current_step > -1 and self.current_step < len(self.routine):
-            self.current_time += delta_time
-            if self.current_time < self.time_at_step_end:
-                for foot in range(Step.Foot.BOTH):
-                    self.position[foot].x += self.delta_pos[foot].x * delta_time
-                    self.position[foot].y += self.delta_pos[foot].y * delta_time
-                    self.position[foot].angle += self.delta_pos[foot].angle * delta_time
-            else:
-                self.start_next_step()
-
+        for foot in range(Step.Foot.BOTH):
+            self.position[foot].x += self.delta_pos[foot].x * delta_time
+            self.position[foot].y += self.delta_pos[foot].y * delta_time
+            self.position[foot].angle += self.delta_pos[foot].angle * delta_time
 
     def draw(self):
         if self.free_foot == Step.Foot.LEFT:
