@@ -6,7 +6,7 @@ class Position():
         self.x = 0
         self.y = 0
         self.angle = 0
-        
+
     def copy(self):
         return copy.deepcopy(self)
 
@@ -14,5 +14,13 @@ class Position():
         self.x = x
         self.y = y
         self.angle = angle
+
+    def add(self, pos):
+        self.x += pos.x
+        self.y += pos.y
+        self.angle += pos.angle
+        
+    def print(self):
+        print("(",self.x,",",self.y,",",self.angle,")",end="\t")
 
 NO_MOVEMENT = Position()

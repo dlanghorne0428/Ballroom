@@ -19,11 +19,11 @@ class Dance():
         self.current_song = None        # the current song selected
         self.current_routine = []       # a routine is a list of figures. Start with an empty routine.
         self.current_time = 0
-        
+
         self.current_leader_step = None
         self.current_follower_step = None
         self.in_progress = False
-    
+
         self.figure_index = 0           # should use iterators, but using integer index variables for now
         self.step_index = 0             # would need separate iterators for leader and follower step list
 
@@ -63,7 +63,7 @@ class Dance():
     def draw_dancers(self):
         self.leader.draw()
         self.follower.draw()
-        
+
     def go_to_next_step(self):
         more_steps = True
         self.step_index += 1
@@ -79,33 +79,36 @@ class Dance():
                 more_steps = False
                 for foot in range(Foot.BOTH):
                     self.leader.delta_pos[foot] = Position.NO_MOVEMENT
-                    self.follower.delta_pos[foot] = Position.NO_MOVEMENT   
-        
+                    self.follower.delta_pos[foot] = Position.NO_MOVEMENT
+
         return more_steps
-        
+
     def start_next_step(self):
         self.current_leader_step = self.current_figure.leader_steps[self.step_index]
         self.leader.set_free_foot(self.current_leader_step.foot)
         self.current_follower_step = self.current_figure.follower_steps[self.step_index]
         self.follower.set_free_foot(self.current_follower_step.foot)
-        
+
         self.time_at_next_step = self.current_time + self.current_leader_step.duration
-        
+
         for foot in range(Foot.BOTH):
             self.leader.pivot(foot, self.current_leader_step.pre_step_turn)
-            self.leader.set_delta_pos(foot, self.current_leader_step.get_update_vector(foot, self.leader.position))
+            leader_update_vector = self.current_leader_step.get_update_vector(foot, self.leader)
+            self.leader.set_delta_pos(foot, leader_update_vector)
+        for foot in range(Foot.BOTH):
             self.follower.pivot(foot, self.current_follower_step.pre_step_turn)
-            self.follower.set_delta_pos(foot, self.current_follower_step.get_update_vector(foot, self.follower.position))
-            
+            follower_update_vector = self.current_follower_step.get_update_vector(foot, self.follower)
+            self.follower.set_delta_pos(foot, follower_update_vector)
+
 
     def start_dance(self):
         self.figure_index = 0
         if len(self.current_routine) > 0:
             self.current_figure = self.current_routine[self.figure_index]
-            self.step_index = 0 
+            self.step_index = 0
             self.current_leader_step = self.current_figure.leader_steps[self.step_index]
             self.current_follower_step = self.current_figure.follower_steps[self.step_index]
-        
+
             self.current_time = 0
             self.start_next_step()
             self.in_progress = True
@@ -117,10 +120,10 @@ class Dance():
                 self.leader.update(delta_time)
                 self.follower.update(delta_time)
             else:
-                # self.leader.complete_current_step()
-                # self.follower.complete_current_step()
+                self.leader.complete_current_step()
+                self.follower.complete_current_step()
                 self.in_progress = self.go_to_next_step()
-            
+
         return self.in_progress
 
     def select_song(self, index):
