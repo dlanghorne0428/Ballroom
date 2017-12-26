@@ -12,17 +12,18 @@ class Step():
 
     feet_spread_distance = 80
 
-    def __init__(self, foot, duration, pre_step_turn=0):
+    def __init__(self, foot, duration, pre_step_pivot=0, rotation=0):
         self.duration = duration
         self.foot = foot
-        self.pre_step_turn = pre_step_turn
+        self.pre_step_pivot = pre_step_pivot
+        self.rotation = rotation
 
     def set_spread(distance):
         feet_spread_distance = distance
 
-    def get_pre_step_turn(self, foot):
+    def get_pre_step_pivot(self, foot):
         if foot == self.foot:
-            return self.pre_step_turn
+            return self.pre_step_pivot
         else:
             return 0
 
@@ -58,14 +59,13 @@ class Step():
 
 class Forward(Step):
 
-    def __init__(self, foot, stride, duration, pre_step_turn = 0, rotation = 0):
-        super().__init__(foot, duration, pre_step_turn)
+    def __init__(self, foot, stride, duration, pre_step_pivot = 0, rotation = 0):
+        super().__init__(foot, duration, pre_step_pivot, rotation)
         self.stride = stride
-        self.rotation = rotation
 
     def calc_new_position(self):
         new_pos = Position.Position()
-        self.reference.angle += self.pre_step_turn   # HACK - is this what I want?
+        self.reference.angle += self.pre_step_pivot   # HACK - is this what I want?
         new_pos.x = (self.reference.x
                   + self.spread * math.sin(math.radians(self.reference.angle+90))
                   + self.stride * math.cos(math.radians(self.reference.angle+90)))
@@ -79,23 +79,24 @@ class Forward(Step):
 
 class Backward(Forward):
 
-    def __init__(self, foot, stride, duration, pre_step_turn = 0, rotation = 0):
-        super().__init__(foot, stride, duration, pre_step_turn, rotation)
+    def __init__(self, foot, stride, duration, pre_step_pivot = 0, rotation = 0):
+        super().__init__(foot, stride, duration, pre_step_pivot, rotation)
         self.stride = -stride
 
 class Side(Step):
 
-    def __init__(self, foot, stride, duration):
-        super().__init__(foot, duration)
+    def __init__(self, foot, stride, duration, pre_step_pivot = 0, rotation=0):
+        super().__init__(foot, duration, pre_step_pivot, rotation)
         self.stride = stride
 
     def calc_new_position(self):
         new_pos = Position.Position()
-        new_pos.x = self.reference.x \
-                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle+90))
-        new_pos.y = self.reference.y \
-                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle))
-        new_pos.angle = self.reference.angle
+        self.reference.angle += self.pre_step_pivot   # HACK - is this what I want?        
+        new_pos.x = (self.reference.x 
+                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle+90)))
+        new_pos.y = (self.reference.y 
+                  + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle)))
+        new_pos.angle = self.reference.angle + self.rotation
 
         return new_pos
 

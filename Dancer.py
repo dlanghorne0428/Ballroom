@@ -52,7 +52,8 @@ class Dancer():
         
     # modify the angle of the given foot before the next step
     def pivot(self, foot, rotation):
-        self.position[foot].angle += rotation
+        if self.free_foot == foot:
+            self.position[foot].angle += rotation
 
     def update(self, delta_time):
         for foot in range(Foot.BOTH):

@@ -27,7 +27,7 @@ class Dance():
         self.figure_index = 0           # should use iterators, but using integer index variables for now
         self.step_index = 0             # would need separate iterators for leader and follower step list
 
-        self.beats_per_minute = 120     # BPM is provided by the selected song
+        self.beats_per_minute = 120      # BPM is provided by the selected song
         self.seconds_per_beat = 60 / self.beats_per_minute
 
     def customize_current_figure(self, index):
@@ -56,9 +56,9 @@ class Dance():
 
         # eventually the user should be able to choose the start position
         self.leader.set_position(Foot.LEFT, 300, 120, 0)
-        self.leader.set_position(Foot.RIGHT,380, 120, 0)
-        self.follower.set_position(Foot.LEFT, 420, 280, 180)
-        self.follower.set_position(Foot.RIGHT, 340, 280, 180)
+        self.leader.set_position(Foot.RIGHT,375, 120, 0)
+        self.follower.set_position(Foot.LEFT, 405, 260, 180)
+        self.follower.set_position(Foot.RIGHT, 330, 260, 180)
 
     def draw_dancers(self):
         self.leader.draw()
@@ -73,7 +73,7 @@ class Dance():
             self.figure_index += 1
             self.step_index = 0
             if self.figure_index < len(self.current_routine):
-                self.current_figure = self.current_routine(self.figure_index)
+                self.current_figure = self.current_routine[self.figure_index]
                 self.start_next_step()
             else:  # no more figures, stop dancing
                 more_steps = False
@@ -92,11 +92,11 @@ class Dance():
         self.time_at_next_step = self.current_time + self.current_leader_step.duration
 
         for foot in range(Foot.BOTH):
-            self.leader.pivot(foot, self.current_leader_step.pre_step_turn)
+            self.leader.pivot(foot, self.current_leader_step.pre_step_pivot)
             leader_update_vector = self.current_leader_step.get_update_vector(foot, self.leader)
             self.leader.set_delta_pos(foot, leader_update_vector)
         for foot in range(Foot.BOTH):
-            self.follower.pivot(foot, self.current_follower_step.pre_step_turn)
+            self.follower.pivot(foot, self.current_follower_step.pre_step_pivot)
             follower_update_vector = self.current_follower_step.get_update_vector(foot, self.follower)
             self.follower.set_delta_pos(foot, follower_update_vector)
 

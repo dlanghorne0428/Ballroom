@@ -11,36 +11,60 @@ class Waltz(Dance.Dance):
         self.name = arcade.create_text("W: Waltz", arcade.color.BLACK, 14)
         Step.Step:set_spread(80)
 
-    def left_box_turn(self):
-        f = Figure("Left Box Turn")
-        self.forward_pixels = 160
-        self.side_pixels = 120
-
-        # Slow Waltz - Step 1 quarter turn for now
-        f.add_leader_step(Step.Forward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat, 90))
-        f.add_follower_step(Step.Backward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat,90 ))
-
-        # # Slow Waltz - Step 2
-        f.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
-        #
-        # # Slow Waltz - Step 3
-        # f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        # f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        #
-        # # Slow Waltz - Step 4
-        # f.add_leader_step(Step.Backward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
-        # f.add_follower_step(Step.Forward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat))
-        #
-        # # Slow Waltz - Step 5
-        # f.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
-        # f.add_follower_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        #
-        # # Slow Waltz - Step 6
-        # f.add_leader_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        # f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-
-        return f
+    class Left_Box_Turn(Figure):
+        
+        def __init__(self, timing):
+            super().__init__("Left Box Turn")
+            self.customization_needed = True
+            self.beat_time = timing
+            self.define_menu_item("a. No Turn")
+            self.define_menu_item("b. 1/4 Turn")
+            self.define_menu_item("c. 3/8 Turn")
+            
+        def customize(self, index):
+            forward_pixels = 160
+            side_pixels = 160
+            if index == 0:
+                rot_angle_1 = 0
+                rot_angle_2 = 0
+                pivot_angle_1 = 0
+                pivot_angle_2 = 0
+            elif index == 1:
+                pivot_angle_1 = 30
+                rot_angle_1 = 40
+                rot_angle_2 = 20
+                pivot_angle_2 = 0
+            else:
+                pivot_angle_1 = 30
+                rot_angle_1 = 45
+                pivot_angle_2 = 30
+                rot_angle_2 = 30
+    
+            # Slow Waltz - Step 1 
+            self.add_leader_step(Step.Forward(Step.Foot.LEFT, forward_pixels, self.beat_time, pre_step_pivot=pivot_angle_1, rotation=rot_angle_1))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+    
+            # Slow Waltz - Step 2
+            self.add_leader_step(Step.Side(Step.Foot.RIGHT, side_pixels, self.beat_time, pre_step_pivot=pivot_angle_2, rotation=rot_angle_2))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+            #
+            # Slow Waltz - Step 3
+            self.add_leader_step(Step.Close(Step.Foot.LEFT, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+            #
+            # Slow Waltz - Step 4
+            self.add_leader_step(Step.Backward(Step.Foot.RIGHT, forward_pixels, self.beat_time, pre_step_pivot=pivot_angle_1, rotation=rot_angle_1))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+            #
+            # Slow Waltz - Step 5
+            self.add_leader_step(Step.Side(Step.Foot.LEFT, -side_pixels, self.beat_time, pre_step_pivot=pivot_angle_2, rotation=rot_angle_2))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+            #
+            # # Slow Waltz - Step 6
+            self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+    
+            self.customization_needed = False
 
     def right_box_turn(self):
         f = Figure("Right Box Turn")
@@ -49,27 +73,27 @@ class Waltz(Dance.Dance):
 
         # Slow Waltz - Step 1
         f.add_leader_step(Step.Forward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Backward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
 
         # Slow Waltz - Step 2
         f.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
 
         # Slow Waltz - Step 3
         f.add_leader_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
 
         # Slow Waltz - Step 4
         f.add_leader_step(Step.Backward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Forward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
 
         # Slow Waltz - Step 5
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
 
         # Slow Waltz - Step 6
         f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
 
         return f
 
@@ -90,7 +114,7 @@ class Waltz(Dance.Dance):
         f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
         f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
 
-        return f
+        return f 
 
     def load_figure_names(self):
         self.figure_names.append(arcade.create_text("1: Left Box Turn", arcade.color.BLACK, 14))
@@ -99,7 +123,7 @@ class Waltz(Dance.Dance):
 
     def select_figure(self, index):
         if index == 0:
-            self.current_figure = self.left_box_turn()
+            self.current_figure = self.Left_Box_Turn(self.seconds_per_beat)
         elif index == 1:
             self.current_figure = self.right_box_turn()
         else:

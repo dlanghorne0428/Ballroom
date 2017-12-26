@@ -19,8 +19,10 @@ class Position():
         self.x += pos.x
         self.y += pos.y
         self.angle += pos.angle
+        if self.angle > 360:
+            self.angle -= 360
         
     def print(self):
-        print("(",self.x,",",self.y,",",self.angle,")",end="\t")
+        print("(", round(self.x,2),",", round(self.y,2),",", round(self.angle,2),")",end="\t")
 
 NO_MOVEMENT = Position()
