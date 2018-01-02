@@ -10,7 +10,7 @@ class Foot(IntEnum):
 
 class Step():
 
-    feet_spread_distance = 80
+    feet_spread_distance = 75    #TODO this should come from the Dance
 
     def __init__(self, foot, duration, pre_step_pivot=0, rotation=0):
         self.duration = duration
@@ -52,7 +52,7 @@ class Step():
         if foot == self.foot:
             self.update_vector_setup(foot, dancer.position)
             self.new_pos = self.calc_new_position()
-            dancer.set_next_pos(foot, self.new_pos)   
+            dancer.set_next_pos(foot, self.new_pos)
             return self.update_vector_calc()
         else:
            return Position.NO_MOVEMENT
@@ -91,10 +91,10 @@ class Side(Step):
 
     def calc_new_position(self):
         new_pos = Position.Position()
-        self.reference.angle += self.pre_step_pivot   # HACK - is this what I want?        
-        new_pos.x = (self.reference.x 
+        self.reference.angle += self.pre_step_pivot   # HACK - is this what I want?
+        new_pos.x = (self.reference.x
                   + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle+90)))
-        new_pos.y = (self.reference.y 
+        new_pos.y = (self.reference.y
                   + (self.stride + self.spread) * math.sin(math.radians(self.reference.angle)))
         new_pos.angle = self.reference.angle + self.rotation
 
@@ -128,15 +128,15 @@ class Follow(Step):
                 self.reference = dancer.leader.next_pos[Foot.LEFT].copy()
 
             self.new_pos = self.calc_new_position()
-            dancer.set_next_pos(foot, self.new_pos)  
+            dancer.set_next_pos(foot, self.new_pos)
             return self.update_vector_calc()
         else:
            return Position.NO_MOVEMENT
 
     # this can probably be a general routine in the position class
     def calc_new_position(self):
-        x_offset = 40
-        y_offset = 160
+        x_offset = 40       # these should come from the Dance
+        y_offset = 140
         angle_offset = 180
         new_pos = Position.Position()
         new_pos.x = (self.reference.x
