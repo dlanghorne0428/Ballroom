@@ -21,6 +21,9 @@ class Figure():
 
     def define_menu_item(self, item_text):
         self.menu_items.append(arcade.create_text(item_text, arcade.color.BLACK, 14))
+        
+    def clear_menu_items(self):
+        self.menu_items.clear()
 
     def draw_menu_item(self, index, x, y):
         arcade.render_text(self.menu_items[index], x, y)

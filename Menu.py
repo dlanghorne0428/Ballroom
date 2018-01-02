@@ -165,7 +165,8 @@ class Menu():
                 f = self.current_dance.current_figure
                 if index < len(f.menu_items):
                     self.current_dance.customize_current_figure(index)
-                    self.current_state = MenuState.SELECT_FIGURE
+                    if not f.customization_needed:
+                        self.current_state = MenuState.SELECT_FIGURE
 
         # See if the user just hit space.
         elif self.current_state == MenuState.READY_TO_START:

@@ -17,51 +17,68 @@ class Rumba(Dance.Dance):
             super().__init__("Rumba Box")
 
             self.customization_needed = True
+            self.customization_count = 0
             self.define_menu_item("a. Front Half of Box")
             self.define_menu_item("b. Back Half of Box")
             self.define_menu_item("c. Full Box")
             self.beat_time = timing
+            
+            self.front_half = None  # first customization determines what parts of box to do 
+            self.back_half = None
 
         def customize(self, index):
-            pixels_per_front_step = 120
-            pixels_per_side_step = 80
-            front_half = False
-            back_half = False
-            if index == 0 or index == 2:
-                front_half = True
-            if index == 1 or index == 2:
-                back_half = True
+            self.customization_count += 1
+            if self.customization_count == 1:
+                self.front_step_pixels = 120
+                self.side_step_pixels = 80
+                self.front_half = False
+                self.back_half = False
+                if index == 0 or index == 2:
+                    self.front_half = True
+                if index == 1 or index == 2:
+                    self.back_half = True
+                self.clear_menu_items()
+                self.define_menu_item("a: No Turn")
+                self.define_menu_item("b: 1/8 Turn")
+                self.define_menu_item("c: 1/4 Turn")
+            else:
+                if index == 0:   # no_turn
+                    angle_1 = 0
+                    angle_2 = 0
+                elif index == 1:
+                    angle_1 = 10
+                    angle_2 = 12.5
+                else:
+                    angle_1 = 20
+                    angle_2 = 25
 
-            if front_half:
-                # Rumba - Step 1 Slow
-                self.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time * 2))
-                self.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time * 2))
-                # almost a 1/4 turn
-                #f.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step * 0.5, self.beat_time * 2, pre_step_turn=20, rotation=25))
-                #f.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step * 1.5, self.beat_time * 2, pre_step_turn=70, rotation=-25))
-
-                # Rumba - Step 2 Quick
-                self.add_leader_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.beat_time))
-                self.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.beat_time))
-
-                # Rumba - Step 3 Quick
-                self.add_leader_step(Step.Close(Step.Foot.LEFT, self.beat_time))
-                self.add_follower_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
-
-            if back_half:
-                # Rumba - Step 4 Slow
-                self.add_leader_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time * 2))
-                self.add_follower_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time * 2))
-
-                # Rumba - Step 5 Quick
-                self.add_leader_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.beat_time))
-                self.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.beat_time))
-
-                # Rumba - Step 6 Quick
-                self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
-                self.add_follower_step(Step.Close(Step.Foot.LEFT, self.beat_time))
-
-            self.customization_needed = False
+                if self.front_half:
+                    # Rumba - Step 1 Slow
+                    self.add_leader_step(Step.Forward(Step.Foot.LEFT, self.front_step_pixels, self.beat_time * 2, pre_step_pivot=angle_1))
+                    self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time * 2))
+    
+                    # Rumba - Step 2 Quick
+                    self.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_step_pixels, self.beat_time, pre_step_pivot=angle_2))
+                    self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+    
+                    # Rumba - Step 3 Quick
+                    self.add_leader_step(Step.Close(Step.Foot.LEFT, self.beat_time))
+                    self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+    
+                if self.back_half:
+                    # Rumba - Step 4 Slow
+                    self.add_leader_step(Step.Backward(Step.Foot.RIGHT, self.front_step_pixels, self.beat_time * 2, pre_step_pivot=angle_2))
+                    self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time * 2))
+    
+                    # Rumba - Step 5 Quick
+                    self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_step_pixels, self.beat_time, pre_step_pivot=angle_1))
+                    self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+    
+                    # Rumba - Step 6 Quick
+                    self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
+                    self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+    
+                self.customization_needed = False
 
     def alt_basic(self):
 
@@ -71,27 +88,27 @@ class Rumba(Dance.Dance):
 
         # Rumba - Step 1 Slow : left foot side
         f.add_leader_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))
-        f.add_follower_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat * 2))
 
         # Rumba - Step 2 Quick: rock back on right
         f.add_leader_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.seconds_per_beat))
-        f.add_follower_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
 
         # Rumba - Step 3 Quick : replace weight
         f.add_leader_step(Step.Step(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Step(Step.Foot.RIGHT, self.seconds_per_beat))
-
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
+        
         # Rumba - Step 4 Slow : right foot side
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat * 2))
 
         # Rumba - Step 5 Quick: rock forward on left
         f.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.seconds_per_beat))
-        f.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
 
         # Rumba - Step 6 Quick : replace weight
         f.add_leader_step(Step.Step(Step.Foot.RIGHT, self.seconds_per_beat))
-        f.add_follower_step(Step.Step(Step.Foot.LEFT, self.seconds_per_beat))
+        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
 
         return f
 
@@ -112,27 +129,27 @@ class Rumba(Dance.Dance):
 
             # Rumba - Step 1 Slow : left foot forward
             self.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time * 2))
-            self.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time * 2))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time * 2))
 
             # Rumba - Step 2 Quick: right foot forward
             self.add_leader_step(Step.Forward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time))
-            self.add_follower_step(Step.Backward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
 
             # Rumba - Step 3 Quick : left foot forward
             self.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time))
-            self.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
 
             # Rumba - Step 4 Slow : right foot forward
             self.add_leader_step(Step.Forward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time * 2))
-            self.add_follower_step(Step.Backward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time * 2))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time * 2))
 
             # Rumba - Step 5 Quick: left foot forward
             self.add_leader_step(Step.Forward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time))
-            self.add_follower_step(Step.Backward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
 
             # Rumba - Step 6 Quick : right foot forward
             self.add_leader_step(Step.Forward(Step.Foot.RIGHT, pixels_per_front_step, self.beat_time))
-            self.add_follower_step(Step.Backward(Step.Foot.LEFT, pixels_per_front_step, self.beat_time))
+            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
 
             # done with customization
             self.customization_needed = False
