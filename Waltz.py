@@ -12,7 +12,7 @@ class Waltz(Dance.Dance):
         Step.Step:set_spread(80)
 
     class Left_Box_Turn(Figure):
-        
+
         def __init__(self, timing):
             super().__init__("Left Box Turn")
             self.customization_needed = True
@@ -20,7 +20,7 @@ class Waltz(Dance.Dance):
             self.define_menu_item("a. No Turn")
             self.define_menu_item("b. 1/4 Turn")
             self.define_menu_item("c. 3/8 Turn")
-            
+
         def customize(self, index):
             forward_pixels = 160
             side_pixels = 160
@@ -30,20 +30,20 @@ class Waltz(Dance.Dance):
                 pivot_angle_1 = 0
                 pivot_angle_2 = 0
             elif index == 1:
-                pivot_angle_1 = 30
-                rot_angle_1 = 40
+                pivot_angle_1 = 10
+                rot_angle_1 = 30
                 rot_angle_2 = 20
-                pivot_angle_2 = 0
-            else:
-                pivot_angle_1 = 30
-                rot_angle_1 = 45
                 pivot_angle_2 = 30
+            else:
+                pivot_angle_1 = 10
+                rot_angle_1 = 45
+                pivot_angle_2 = 60
                 rot_angle_2 = 30
-    
-            # Slow Waltz - Step 1 
+
+            # Slow Waltz - Step 1
             self.add_leader_step(Step.Forward(Step.Foot.LEFT, forward_pixels, self.beat_time, pre_step_pivot=pivot_angle_1, rotation=rot_angle_1))
             self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-    
+
             # Slow Waltz - Step 2
             self.add_leader_step(Step.Side(Step.Foot.RIGHT, side_pixels, self.beat_time, pre_step_pivot=pivot_angle_2, rotation=rot_angle_2))
             self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
@@ -63,7 +63,7 @@ class Waltz(Dance.Dance):
             # # Slow Waltz - Step 6
             self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
             self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
-    
+
             self.customization_needed = False
 
     def right_box_turn(self):
@@ -114,7 +114,7 @@ class Waltz(Dance.Dance):
         f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
         f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
 
-        return f 
+        return f
 
     def load_figure_names(self):
         self.figure_names.append(arcade.create_text("1: Left Box Turn", arcade.color.BLACK, 14))
