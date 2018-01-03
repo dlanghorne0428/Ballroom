@@ -126,6 +126,8 @@ class Menu():
                 self.current_dance = self.dance_menu[3]
             elif key == arcade.key.R:
                 self.current_dance = self.dance_menu[4]  # this should be based on name somehow
+            elif key == arcade.key.E:
+                self.current_dance = self.dance_menu[5]  # this should be based on name somehow
             else:
                 print("Please select a dance from the menu")
 
