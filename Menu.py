@@ -118,6 +118,8 @@ class Menu():
         if self.current_state == MenuState.SELECT_DANCE:
             if key == arcade.key.W:
                 self.current_dance = self.dance_menu[0]
+            elif key == arcade.key.T:
+                self.current_dance = self.dance_menu[1]
             elif key == arcade.key.F:
                 self.current_dance = self.dance_menu[2]
             elif key == arcade.key.C:
