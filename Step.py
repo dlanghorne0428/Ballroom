@@ -44,7 +44,14 @@ class Step():
         upd_vec = Position.Position()
         upd_vec.x = (self.new_pos.x - self.start_pos.x) / self.duration
         upd_vec.y = (self.new_pos.y - self.start_pos.y) / self.duration
-        upd_vec.angle = (self.new_pos.angle - self.start_pos.angle) / self.duration
+        if self.new_pos.angle - self.start_pos.angle >= 180.0:
+            print("angle change too large")
+            upd_vec.angle = (self.new_pos.angle - 360.0 - self.start_pos.angle) / self.duration
+        elif self.new_pos.angle - self.start_pos.angle <= -180.0:
+            print("negative angle change too large")
+            upd_vec.angle = (self.new_pos.angle + 360.0 - self.start_pos.angle) / self.duration
+        else:
+            upd_vec.angle = (self.new_pos.angle - self.start_pos.angle) / self.duration
         print(type(self), self.foot, self.start_pos.print(), self.new_pos.print())
         return upd_vec
 
@@ -55,7 +62,7 @@ class Step():
             dancer.set_next_pos(foot, self.new_pos)
             return self.update_vector_calc()
         else:
-           return Position.NO_MOVEMENT
+            return Position.NO_MOVEMENT
 
 class Forward(Step):
 
@@ -131,7 +138,7 @@ class Follow(Step):
             dancer.set_next_pos(foot, self.new_pos)
             return self.update_vector_calc()
         else:
-           return Position.NO_MOVEMENT
+            return Position.NO_MOVEMENT
 
     # this can probably be a general routine in the position class
     def calc_new_position(self):
@@ -151,44 +158,22 @@ class Follow(Step):
 
 
 
-# class Complex_Step(Step):
-#
-#     def __init__(self, foot, x_dist, y_dist, rotation, duration, x_dist_r = 0, y_dist_r = 0, rot_2 = 0):
-#         super().__init__(foot, duration)
-#         if foot == Foot.LEFT:
-#             self.x_distance_left = x_dist
-#             self.y_distance_left = y_dist
-#             self.rotation_angle_left = rotation
-#             self.x_distance_right = 0
-#             self.y_distance_right = 0
-#             self.rotation_angle_right = 0
-#         elif foot == Foot.RIGHT:
-#             self.x_distance_right = x_dist
-#             self.y_distance_right = y_dist
-#             self.rotation_angle_right = rotation
-#             self.x_distance_left = 0
-#             self.y_distance_left = 0
-#             self.rotation_angle_left = 0
-#         else:
-#             self.x_distance_left = x_dist
-#             self.y_distance_left = y_dist
-#             self.rotation_angle_left = rotation
-#             self.x_distance_right = x_dist_r
-#             self.y_distance_right = y_dist_r
-#             self.rotation_angle_right = rot_r
-#
-#     def get_update_vector(self, foot, current_pos):
-#         upd_vec = Position.Position()
-#         if foot == self.foot:
-#             if foot == Foot.LEFT:
-#                 upd_vec.x = self.x_distance_left / self.duration
-#                 y_offset = (current_pos[Foot.RIGHT].y - current_pos[Foot.LEFT].y) * math.cos(math.radians(current_pos[Foot.LEFT].angle))
-#                 upd_vec.y = (self.y_distance_left + y_offset) / self.duration
-#                 upd_vec.angle = self.rotation_angle_left / self.duration
-#             else:
-#                 upd_vec.x = self.x_distance_right / self.duration
-#                 y_offset = (current_pos[Foot.LEFT].y - current_pos[Foot.RIGHT].y) * math.cos(math.radians(current_pos[Foot.RIGHT].angle))
-#                 upd_vec.y = (self.y_distance_right + y_offset) / self.duration
-#                 upd_vec.angle = self.rotation_angle_right / self.duration
-#
-#         return upd_vec
+class Two_D(Step):
+
+    def __init__(self, foot, x_dist, y_dist, duration, pre_step_pivot = 0, rotation = 0):
+        super().__init__(foot, duration, pre_step_pivot, rotation)
+        self.x_dist = x_dist
+        self.y_dist = y_dist
+
+    def calc_new_position(self):
+        new_pos = Position.Position()
+        self.reference.angle += self.pre_step_pivot   # HACK - is this what I want?
+        new_pos.x = (self.reference.x
+                  + (self.spread + self.x_dist) * math.sin(math.radians(self.reference.angle+90))
+                  + self.y_dist * math.cos(math.radians(self.reference.angle+90)))
+        new_pos.y = (self.reference.y
+                  + (self.spread + self.x_dist) * math.sin(math.radians(self.reference.angle))
+                  + self.y_dist * math.cos(math.radians(self.reference.angle)))
+        new_pos.angle = self.reference.angle + self.rotation
+ 
+        return new_pos

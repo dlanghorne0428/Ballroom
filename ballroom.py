@@ -75,6 +75,8 @@ class MyApplication(arcade.Window):
 
         self.menu.process_key(key, key_modifiers)
 
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        pass
 
 def main():
     """ Main method """

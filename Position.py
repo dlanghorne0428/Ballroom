@@ -1,6 +1,11 @@
+""" The Position Module contains a Position() class and NO_MOVEMENT constant"""
 import copy
 
 class Position():
+    """
+    The Position() class implements a position in 2-D space, representing
+    an x-coordinate, y-coordinate, and an angle.
+    """
 
     def __init__(self):
         self.x = 0
@@ -21,7 +26,7 @@ class Position():
         self.angle += pos.angle
         if self.angle > 360:
             self.angle -= 360
-        
+
     def print(self):
         print("(", round(self.x,2),",", round(self.y,2),",", round(self.angle,2),")",end="\t")
 

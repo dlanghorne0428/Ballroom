@@ -77,6 +77,8 @@ class Dance():
                 self.start_next_step()
             else:  # no more figures, stop dancing
                 more_steps = False
+                self.figure_index = 0
+                self.step_index = 0                
                 for foot in range(Foot.BOTH):
                     self.leader.delta_pos[foot] = Position.NO_MOVEMENT
                     self.follower.delta_pos[foot] = Position.NO_MOVEMENT
