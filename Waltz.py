@@ -11,6 +11,33 @@ class Waltz(Dance.Dance):
         self.name = arcade.create_text("W: Waltz", arcade.color.BLACK, 14)
         Step.Step:set_spread(80)
 
+    def lf_change(fig, timing, fwd_pixels, side_pixels, piv_angle_1 = 0, piv_angle_2 = 0, rot_angle_1 = 0, rot_angle_2 = 0):
+        # Step 1 - Forward Left
+        fig.add_leader_step(Step.Forward(Step.Foot.LEFT, fwd_pixels, timing, pre_step_pivot=piv_angle_1, rotation=rot_angle_1))
+        fig.add_follower_step(Step.Follow(Step.Foot.RIGHT, timing))
+
+        # Step 2 - Side Right
+        fig.add_leader_step(Step.Side(Step.Foot.RIGHT, side_pixels, timing, pre_step_pivot=piv_angle_2, rotation=rot_angle_2))
+        fig.add_follower_step(Step.Follow(Step.Foot.LEFT, timing))
+
+        # Step 3 - Close Feet
+        fig.add_leader_step(Step.Close(Step.Foot.LEFT, timing))
+        fig.add_follower_step(Step.Follow(Step.Foot.RIGHT, timing))
+        
+    def rf_change(fig, timing, fwd_pixels, side_pixels, piv_angle_1 = 0, piv_angle_2 = 0, rot_angle_1 = 0, rot_angle_2 = 0):
+        # Step 1 - Backward Right
+        fig.add_leader_step(Step.Forward(Step.Foot.RIGHT, fwd_pixels, timing, pre_step_pivot=piv_angle_1, rotation=rot_angle_1))
+        fig.add_follower_step(Step.Follow(Step.Foot.LEFT, timing))
+
+        # Step 2 - Side Left
+        fig.add_leader_step(Step.Side(Step.Foot.LEFT, -side_pixels, timing, pre_step_pivot=piv_angle_2, rotation=rot_angle_2))
+        fig.add_follower_step(Step.Follow(Step.Foot.RIGHT, timing))
+
+        # Step 3 - Close Feet
+        fig.add_leader_step(Step.Close(Step.Foot.RIGHT, timing))
+        fig.add_follower_step(Step.Follow(Step.Foot.LEFT, timing))    
+
+
     class Left_Box_Turn(Figure):
 
         def __init__(self, timing):
@@ -40,81 +67,67 @@ class Waltz(Dance.Dance):
                 pivot_angle_2 = 60
                 rot_angle_2 = 30
 
-            # Slow Waltz - Step 1
-            self.add_leader_step(Step.Forward(Step.Foot.LEFT, forward_pixels, self.beat_time, pre_step_pivot=pivot_angle_1, rotation=rot_angle_1))
-            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
+            Waltz.lf_change(self, self.beat_time, forward_pixels, side_pixels, pivot_angle_1, pivot_angle_2, rot_angle_1, rot_angle_2)
+            Waltz.rf_change(self, self.beat_time, -forward_pixels, side_pixels, pivot_angle_1, pivot_angle_2, rot_angle_1, rot_angle_2)
+            
+            self.customization_needed = False
 
-            # Slow Waltz - Step 2
-            self.add_leader_step(Step.Side(Step.Foot.RIGHT, side_pixels, self.beat_time, pre_step_pivot=pivot_angle_2, rotation=rot_angle_2))
-            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
-            #
-            # Slow Waltz - Step 3
-            self.add_leader_step(Step.Close(Step.Foot.LEFT, self.beat_time))
-            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-            #
-            # Slow Waltz - Step 4
-            self.add_leader_step(Step.Backward(Step.Foot.RIGHT, forward_pixels, self.beat_time, pre_step_pivot=pivot_angle_1, rotation=rot_angle_1))
-            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
-            #
-            # Slow Waltz - Step 5
-            self.add_leader_step(Step.Side(Step.Foot.LEFT, -side_pixels, self.beat_time, pre_step_pivot=pivot_angle_2, rotation=rot_angle_2))
-            self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-            #
-            # # Slow Waltz - Step 6
-            self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
-            self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
+    class Right_Box_Turn(Figure):
+        def __init__(self, timing):
+            super().__init__("Right Box Turn")
+            self.customization_needed = True
+            self.beat_time = timing
+            self.define_menu_item("a. No Turn")
+            self.define_menu_item("b. 1/4 Turn")
+            self.define_menu_item("c. 3/8 Turn")
+
+        def customize(self, index):
+            forward_pixels = 160
+            side_pixels = 160
+            if index == 0:
+                rot_angle_1 = 0
+                rot_angle_2 = 0
+                pivot_angle_1 = 0
+                pivot_angle_2 = 0
+            elif index == 1:
+                pivot_angle_1 = -10
+                rot_angle_1 = -30
+                rot_angle_2 = -20
+                pivot_angle_2 = -30
+            else:
+                pivot_angle_1 = -10
+                rot_angle_1 = -45
+                pivot_angle_2 = -60
+                rot_angle_2 = -30
+            
+            Waltz.rf_change(self, self.beat_time, forward_pixels, side_pixels, pivot_angle_1, pivot_angle_2, rot_angle_1, rot_angle_2)
+            Waltz.lf_change(self, self.beat_time, -forward_pixels, side_pixels, pivot_angle_1, pivot_angle_2, rot_angle_1, rot_angle_2)            
 
             self.customization_needed = False
 
-    def right_box_turn(self):
-        f = Figure("Right Box Turn")
-        self.forward_pixels = 160
-        self.side_pixels = 120
+    class Change_Step(Figure):
+        def __init__(self, timing):
+            super().__init__("Change Step")
+            self.customization_needed = True
+            self.beat_time = timing
+            self.define_menu_item("a. Forward L to R")
+            self.define_menu_item("b. Forward R to L")
+            self.define_menu_item("c. Backward L to R")  
+            self.define_menu_item("d. Backward R to L")   
+            
+        def customize(self, index):
+            forward_pixels = 160
+            side_pixels = 160
+            if index == 0:
+                Waltz.lf_change(self, self.beat_time, forward_pixels, side_pixels)
+            elif index == 1:
+                Waltz.rf_change(self, self.beat_time, forward_pixels, side_pixels)
+            elif index == 2:
+                Waltz.lf_change(self, self.beat_time, -forward_pixels, side_pixels)
+            else:
+                Waltz.rf_change(self, self.beat_time, -forward_pixels, side_pixels)                
 
-        # Slow Waltz - Step 1
-        f.add_leader_step(Step.Forward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
-
-        # Slow Waltz - Step 2
-        f.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
-
-        # Slow Waltz - Step 3
-        f.add_leader_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
-
-        # Slow Waltz - Step 4
-        f.add_leader_step(Step.Backward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
-
-        # Slow Waltz - Step 5
-        f.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat))
-
-        # Slow Waltz - Step 6
-        f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
-
-        return f
-
-    def change_step(self):
-        f = Figure("Change Step")
-        self.forward_pixels = 160
-        self.side_pixels = 120
-
-        # Slow Waltz - Step 1
-        f.add_leader_step(Step.Forward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Backward(Step.Foot.RIGHT, self.forward_pixels, self.seconds_per_beat))
-
-        # Slow Waltz - Step 2
-        f.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
-        f.add_follower_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
-
-        # Slow Waltz - Step 3
-        f.add_leader_step(Step.Close(Step.Foot.LEFT, self.seconds_per_beat))
-        f.add_follower_step(Step.Close(Step.Foot.RIGHT, self.seconds_per_beat))
-
-        return f
+            self.customization_needed = False
 
     def load_figure_names(self):
         self.figure_names.append(arcade.create_text("1: Left Box Turn", arcade.color.BLACK, 14))
@@ -125,9 +138,9 @@ class Waltz(Dance.Dance):
         if index == 0:
             self.current_figure = self.Left_Box_Turn(self.seconds_per_beat)
         elif index == 1:
-            self.current_figure = self.right_box_turn()
+            self.current_figure = self.Right_Box_Turn(self.seconds_per_beat)
         else:
-            self.current_figure = self.change_step()
+            self.current_figure = self.Change_Step(self.seconds_per_beat)
         if not self.current_figure.customization_needed:
             self.current_routine.append(self.current_figure)
         return self.current_figure
