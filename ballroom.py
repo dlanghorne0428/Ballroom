@@ -1,3 +1,4 @@
+""" This is the main program for the Ballroom Dance application. """
 import arcade
 import datetime
 
@@ -14,24 +15,25 @@ SCREEN_HEIGHT = 768
 
 
 class MyApplication(arcade.Window):
+    """
+    We use the Arcade library.
+    This class is the standard application class for Arcade.
+    It controls the main window.
+    It declares two Dancer objects and a Menu object.
+    """
 
     def __init__(self, width, height):
         super().__init__(width, height)
         arcade.set_background_color(arcade.color.WHITE)
 
-        self.leader = Dancer.Dancer()
-        self.follower = Dancer.Dancer()
+        # declare the two dancers
+        #self.leader = Dancer.Dancer()
+        #self.follower = Dancer.Dancer()
 
+        # declare the menu
         self.menu = Menu.Menu()
         pyglet.options['search_local_libs'] = True
         pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
-
-        # Note:
-        # You can change how often the animate() method is called by using the
-        # set_update_rate() method in the parent class.
-        # The default is once every 1/60 of a second.
-        # self.set_update_rate(1/80)
-
 
 
     def on_draw(self):
@@ -76,6 +78,10 @@ class MyApplication(arcade.Window):
         self.menu.process_key(key, key_modifiers)
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        """
+        Called whenever the user scrolls the mouse.
+        Need to override this, otherwise it will generate tracebacks.
+        """
         pass
 
 def main():

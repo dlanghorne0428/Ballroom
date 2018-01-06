@@ -9,7 +9,9 @@ class Rumba(Dance.Dance):
 
     def __init__(self):
         super().__init__()
-        self.name = arcade.create_text("R: Rumba", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("R: Rumba", arcade.color.BLACK, 24)
+        self.beats_per_minute = 120      # BPM is provided by the selected song
+        self.seconds_per_beat = 60 / self.beats_per_minute
 
     class Rumba_Box(Figure):
 
@@ -22,8 +24,8 @@ class Rumba(Dance.Dance):
             self.define_menu_item("b. Back Half of Box")
             self.define_menu_item("c. Full Box")
             self.beat_time = timing
-            
-            self.front_half = None  # first customization determines what parts of box to do 
+
+            self.front_half = None  # first customization determines what parts of box to do
             self.back_half = None
 
         def customize(self, index):
@@ -56,28 +58,28 @@ class Rumba(Dance.Dance):
                     # Rumba - Step 1 Slow
                     self.add_leader_step(Step.Forward(Step.Foot.LEFT, self.front_step_pixels, self.beat_time * 2, pre_step_pivot=angle_1))
                     self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time * 2))
-    
+
                     # Rumba - Step 2 Quick
                     self.add_leader_step(Step.Side(Step.Foot.RIGHT, self.side_step_pixels, self.beat_time, pre_step_pivot=angle_2))
                     self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
-    
+
                     # Rumba - Step 3 Quick
                     self.add_leader_step(Step.Close(Step.Foot.LEFT, self.beat_time))
                     self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-    
+
                 if self.back_half:
                     # Rumba - Step 4 Slow
                     self.add_leader_step(Step.Backward(Step.Foot.RIGHT, self.front_step_pixels, self.beat_time * 2, pre_step_pivot=angle_2))
                     self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time * 2))
-    
+
                     # Rumba - Step 5 Quick
-                    self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_step_pixels, self.beat_time, pre_step_pivot=angle_1))
+                    self.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_step_pixels, self.beat_time, pre_step_pivot=angle_1))
                     self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-    
+
                     # Rumba - Step 6 Quick
                     self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
                     self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
-    
+
                 self.customization_needed = False
 
     def alt_basic(self):
@@ -87,7 +89,7 @@ class Rumba(Dance.Dance):
         pixels_per_side_step = 80
 
         # Rumba - Step 1 Slow : left foot side
-        f.add_leader_step(Step.Side(Step.Foot.LEFT, -pixels_per_side_step, self.seconds_per_beat * 2))
+        f.add_leader_step(Step.Side(Step.Foot.LEFT, pixels_per_side_step, self.seconds_per_beat * 2))
         f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat * 2))
 
         # Rumba - Step 2 Quick: rock back on right
@@ -97,7 +99,7 @@ class Rumba(Dance.Dance):
         # Rumba - Step 3 Quick : replace weight
         f.add_leader_step(Step.Step(Step.Foot.LEFT, self.seconds_per_beat))
         f.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.seconds_per_beat))
-        
+
         # Rumba - Step 4 Slow : right foot side
         f.add_leader_step(Step.Side(Step.Foot.RIGHT, pixels_per_side_step, self.seconds_per_beat * 2))
         f.add_follower_step(Step.Follow(Step.Foot.LEFT, self.seconds_per_beat * 2))

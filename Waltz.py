@@ -8,7 +8,7 @@ class Waltz(Dance.Dance):
 
     def __init__(self):
         super().__init__()
-        self.name = arcade.create_text("W: Waltz", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("W: Waltz", arcade.color.BLACK, 24)
         Step.Step:set_spread(0)
         self.beats_per_minute = 84      # BPM is provided by the selected song
         self.seconds_per_beat = 60 / self.beats_per_minute
@@ -26,7 +26,7 @@ class Waltz(Dance.Dance):
     def rf_change(fig, timing, fwd_pixels, side_pixels, piv_angle_1 = 0, piv_angle_2 = 0, rot_angle_1 = 0, rot_angle_2 = 0, leader_only=False):
         # Step 1 - Backward Right
         fig.add_leader_step(Step.Forward(Step.Foot.RIGHT, fwd_pixels, timing, pre_step_pivot=piv_angle_1, rotation=rot_angle_1))
-        fig.add_leader_step(Step.Side(Step.Foot.LEFT, -side_pixels, timing, pre_step_pivot=piv_angle_2, rotation=rot_angle_2))
+        fig.add_leader_step(Step.Side(Step.Foot.LEFT, side_pixels, timing, pre_step_pivot=piv_angle_2, rotation=rot_angle_2))
         fig.add_leader_step(Step.Close(Step.Foot.RIGHT, timing))
 
         if not leader_only:
@@ -137,7 +137,7 @@ class Waltz(Dance.Dance):
             # leader steps
             Waltz.rf_change(self, self.beat_time, -forward_pixels, side_pixels, leader_only=True)
             Waltz.lf_change(self, self.beat_time, forward_pixels, side_pixels, piv_angle_1 = 10, piv_angle_2 = 30, rot_angle_1 = 30, rot_angle_2 = 20, leader_only=True)
-                
+
             # follower steps
             self.add_follower_step(Step.Forward(Step.Foot.LEFT, forward_pixels * 0.75, self.beat_time))
             self.add_follower_step(Step.Forward(Step.Foot.RIGHT, forward_pixels, self.beat_time, pre_step_pivot=-45.0))  # 1/8 turn to right between 1 and 2
@@ -145,9 +145,9 @@ class Waltz(Dance.Dance):
             self.add_follower_step(Step.Forward(Step.Foot.RIGHT, forward_pixels, self.beat_time, pre_step_pivot=-45.0, rotation=-60.0))
             self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time))
             self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time))
-#            self.add_follower_step(Step.Side(Step.Foot.LEFT, -side_pixels, self.beat_time, pre_step_pivot=-45.0, rotation=-45.0))
+#            self.add_follower_step(Step.Side(Step.Foot.LEFT, side_pixels, self.beat_time, pre_step_pivot=-45.0, rotation=-45.0))
 #            self.add_follower_step(Step.Close(Step.Foot.RIGHT, self.beat_time))
-                                            
+
 
     def load_figure_names(self):
         self.figure_names.append(arcade.create_text("1: Left Box Turn", arcade.color.BLACK, 14))

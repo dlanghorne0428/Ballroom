@@ -11,7 +11,7 @@ class Tango(Dance.Dance):
         super().__init__()
         self.beats_per_minute = 120   # BPM should come from song
         self.seconds_per_beat = 60 / self.beats_per_minute
-        self.name = arcade.create_text("T: Tango", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("T: Tango", arcade.color.BLACK, 24)
 
     class Count_8_Basic(Figure):
         def __init__(self, timing):

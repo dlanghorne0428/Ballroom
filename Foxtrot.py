@@ -9,7 +9,7 @@ class Foxtrot(Dance.Dance):
 
     def __init__(self):
         super().__init__()
-        self.name = arcade.create_text("F: Foxtrot", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("F: Foxtrot", arcade.color.BLACK, 24)
 
     def basic(self):
         f = Figure("Basic")
@@ -25,7 +25,7 @@ class Foxtrot(Dance.Dance):
         f.add_follower_step(Step.Backward(Step.Foot.LEFT, self.forward_pixels, self.seconds_per_beat * 2))
 
         # Step 3 - Side Quick
-        f.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.seconds_per_beat))
+        f.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_pixels, self.seconds_per_beat))
         f.add_follower_step(Step.Side(Step.Foot.RIGHT, self.side_pixels, self.seconds_per_beat))
 
         # Step 4 - Close the feet

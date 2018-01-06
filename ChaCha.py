@@ -11,7 +11,7 @@ class ChaCha(Dance.Dance):
         super().__init__()
         self.beats_per_minute = 120   # BPM should come from song
         self.seconds_per_beat = 60 / self.beats_per_minute
-        self.name = arcade.create_text("C: Cha Cha", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("C: Cha Cha", arcade.color.BLACK, 24)
 
     class Basic(Figure):
         def __init__(self, timing):
@@ -59,9 +59,9 @@ class ChaCha(Dance.Dance):
                     self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time * 0.5))
                     self.add_leader_step(Step.Backward(Step.Foot.LEFT, self.forward_pixels, self.beat_time))
                 else:
-                    self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.beat_time * 0.5))
+                    self.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_pixels, self.beat_time * 0.5))
                     self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time * 0.5))
-                    self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.beat_time))
+                    self.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_pixels, self.beat_time))
 
                 self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time * 0.5))
                 self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time * 0.5))

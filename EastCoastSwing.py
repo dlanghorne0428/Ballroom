@@ -11,7 +11,7 @@ class East_Coast_Swing(Dance.Dance):
         super().__init__()
         self.beats_per_minute = 144   # BPM should come from song
         self.seconds_per_beat = 60 / self.beats_per_minute
-        self.name = arcade.create_text("E: East Coast Swing", arcade.color.BLACK, 14)
+        self.name = arcade.create_text("E: East Coast Swing", arcade.color.BLACK, 24)
 
     class Basic_Step(Figure):
         def __init__(self, timing):
@@ -36,9 +36,9 @@ class East_Coast_Swing(Dance.Dance):
                     self.pivot = 30
 
                 # Steps 1 - 3 Triple Step Left
-                self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels * 0.5, self.beat_time * 0.5, pre_step_pivot=self.pivot))
+                self.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_pixels * 0.5, self.beat_time * 0.5, pre_step_pivot=self.pivot))
                 self.add_leader_step(Step.Close(Step.Foot.RIGHT, self.beat_time * 0.5))
-                self.add_leader_step(Step.Side(Step.Foot.LEFT, -self.side_pixels, self.beat_time))
+                self.add_leader_step(Step.Side(Step.Foot.LEFT, self.side_pixels, self.beat_time))
 
                 self.add_follower_step(Step.Follow(Step.Foot.RIGHT, self.beat_time * 0.5))
                 self.add_follower_step(Step.Follow(Step.Foot.LEFT, self.beat_time * 0.5))
